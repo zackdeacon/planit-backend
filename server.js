@@ -4,7 +4,6 @@ const path = require("path");
 const PORT = process.env.PORT || 3001;
 const app = express();
 const models = require("./models");
-const seed = require("./seeds/seedDB");
 
 // Defining middleware
 app.use(express.urlencoded({ extended: true }));
@@ -16,8 +15,8 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Connect to MongoDB
-// Change boolean to false to prevent resetting database on start
-const eraseDatabaseOnSync = true;
+// Change boolean to true to reset database on server start
+const eraseDatabaseOnSync = false;
 
 mongoose.connect(
   process.env.MONGODB_URI || "mongodb://localhost/plannit", 
