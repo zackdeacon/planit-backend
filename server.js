@@ -16,19 +16,20 @@ if (process.env.NODE_ENV === "production") {
 
 // Connect to MongoDB
 // Change boolean to true to reset database on server start
-const eraseDatabaseOnSync = false;
+const reseedOnConnect = false;
 
 mongoose.connect(
   process.env.MONGODB_URI || "mongodb://localhost/plannit", 
   { useNewUrlParser: true }
 ).then(async () => {
-  if (eraseDatabaseOnSync) {
+  if (reseedOnConnect) {
     await Promise.all([
       models.User.deleteMany({}),
       models.Board.deleteMany({}),
       models.Chat.deleteMany({}),
       models.Suggestion.deleteMany({}),
     ])
+    // seed();
   }
 })
 
