@@ -1,6 +1,6 @@
 module.exports = {
   User: require("./User"),
-  Board: require("./Board"),
+  Map: require("./Map"),
   Suggestion: require("./Suggestion"),
   Chat: require("./Chat"),
 };

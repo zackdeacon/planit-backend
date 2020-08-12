@@ -7,9 +7,9 @@ const chatSchema = new Schema({
     ref: "User",
     required: true,
   },
-  board: {
+  map: {
     type: Schema.Types.ObjectId,
-    ref: "Board",
+    ref: "Map",
     required: true,
   },
   message: {

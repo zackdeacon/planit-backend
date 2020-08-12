@@ -14,27 +14,32 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  // Require name for signup?
   name: {
-    first: String,
-    last: String,
+    first: {
+      type: String,
+      required: true,
+    },
+    last: {
+      type: String,
+      required: true,
+    }
   },
-  createdBoards: [
+  createdMaps: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Board",
+      ref: "Map",
     },
   ],
-  guestBoards: [
+  guestMaps: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Board",
+      ref: "Map",
     },
   ],
   invitations: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Board",
+      ref: "Map",
     },
   ],
 }, { timestamps: { createdAt: "joinedAt" } });

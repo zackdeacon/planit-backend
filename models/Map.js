@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const boardSchema = new Schema({
+const mapSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -28,7 +28,12 @@ const boardSchema = new Schema({
     end: Date,
   },
   destinations: [String],
-  suggestionCategories: [String],
+  suggestionCategories: [
+    {
+      name: String,
+      oneChoice: Boolean,
+    }
+  ],
   suggestions: [
     {
       type: Schema.Types.ObjectId,
@@ -43,6 +48,6 @@ const boardSchema = new Schema({
   ],
 }, { timestamps: true });
 
-const Board = mongoose.model("Board", boardSchema);
+const Map = mongoose.model("Map", mapSchema);
 
-module.exports = Board;
+module.exports = Map;

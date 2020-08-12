@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+// https://mongoosejs.com/docs/subdocs.html
 const voteSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
@@ -20,12 +21,16 @@ const suggestionSchema = new Schema({
     ref: "User",
     required: true,
   },
-  board: {
+  map: {
     type: Schema.Types.ObjectId,
-    ref: "Board",
+    ref: "Map",
     required: true,
   },
   title: {
+    type: String,
+    required: true,
+  },
+  category: {
     type: String,
     required: true,
   },
