@@ -4,6 +4,7 @@ const path = require("path");
 const PORT = process.env.PORT || 3001;
 const app = express();
 const models = require("./models");
+const seed = require("./seeds/seed");
 
 // Defining middleware
 app.use(express.urlencoded({ extended: true }));
@@ -16,7 +17,7 @@ if (process.env.NODE_ENV === "production") {
 
 // Connect to MongoDB
 // Change boolean to true to reset database on server start
-const reseedOnConnect = false;
+const reseedOnConnect = true;
 
 mongoose.connect(
   process.env.MONGODB_URI || "mongodb://localhost/plannit", 
@@ -25,11 +26,11 @@ mongoose.connect(
   if (reseedOnConnect) {
     await Promise.all([
       models.User.deleteMany({}),
-      models.Board.deleteMany({}),
+      models.Map.deleteMany({}),
       models.Chat.deleteMany({}),
       models.Suggestion.deleteMany({}),
     ])
-    // seed();
+    seed();
   }
 })
 
