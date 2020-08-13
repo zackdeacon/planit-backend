@@ -1,0 +1,71 @@
+/* Video Container */
+.vid-container {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    margin-bottom: 500px;
+}
+.vid {
+    height: 100vh;
+}
+/* Adjusting Video for Mobile */
+/* @media (max-width: 530px) {
+    
+} */
+  
+/* Darkening Filter Div */
+.filter-div {
+position: absolute;
+top: 0;
+color:#f1f1f1;
+background-color: rgba(0, 0, 0, 0.31);
+height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 0;
+}
+
+/* Content Over Vid/Filter Divs */
+.content {
+    padding: 10px;
+}
+.content .header-container{
+    position: absolute;
+}
+.content .our-world {
+    position: relative;
+    right: 235px;
+    top:0px;
+    color: white;
+    margin:0px
+}
+.content .your-plan {
+    position: relative;
+    left:225px;
+    bottom:80px;
+    color: white;
+    margin:0px
+}
+/* Adjusting Text For Smaller Screens */
+/* @media (max-width: 1130px) {
+    .content .our-world {
+        position: absolute;
+        left:12.9vw;
+        top:43vh;
+        color: white;
+        font-size: 1.5rem;
+    }
+    .content .our-hands {
+        position: absolute;
+        right:10vw;
+        top:47vh;
+        color: white;
+        font-size: 1.5rem;
+    }
+} */
+.content img {
+width:100%;
+display: block;
+margin: 15px auto;
+}

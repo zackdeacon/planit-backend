@@ -28,6 +28,7 @@ export default function Navbar() {
 
     return (
         <>
+        <div className="wrapper">
             <Row justify="end">
                 <Col className={menuBtn.menuClass} onClick={handleHamburgerClick}>
                     <div className="menu-btn_burger"></div>
@@ -44,6 +45,7 @@ export default function Navbar() {
                     <Button type="text" href="/#login" className="nav-btns">Login</Button>
                 </Row>
             </Col>
+        </div>
         </>
     )
 }
