@@ -16,7 +16,7 @@ const chatSchema = new Schema({
     type: String,
     required: true,
   },
-}, { timestamps: { createdAt: "sentAt" } });
+}, { timestamps: true });
 
 const Chat = mongoose.model("Chat", chatSchema);
 
