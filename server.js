@@ -40,6 +40,25 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
-app.listen(PORT, () => {
+let server;
+
+
+server = app.listen(PORT, () => {
   console.log(`🌎 ==> API server now listening on port ${PORT}!`);
 });
+
+
+
+
+let io = require("socket.io")(server);
+
+// server side set up for socket.io
+io.on("connection", socket => {
+  console.log("it worked")
+  socket.emit("your id", socket.id);
+  socket.on("send message", body => {
+    console.log("Sending Message")
+    io.emit("message", body)
+  })
+});
+

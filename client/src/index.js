@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import Chat from "../src/components/Chat/chat"
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Chat />
   </React.StrictMode>,
   document.getElementById('root')
 );
