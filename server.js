@@ -5,6 +5,9 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 const models = require("./models");
 
+//sessions
+const session = require("express-session")
+
 // Defining middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -32,6 +35,18 @@ mongoose.connect(
     // seed();
   }
 })
+
+//SESION
+app.use(session({
+  //secret string that will encrypt sessions
+  secret: "planit",
+  resave: false,
+  saveUninitialized: true,
+  //the session will last for 2 hours
+  cookie: {
+    maxAge: 7200000
+  }
+}))
 
 // API routes
 
