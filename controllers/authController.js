@@ -1,3 +1,4 @@
+const express = require("express");
 const db = require("../models");
 const router = express.Router()
 //password encryption
@@ -6,7 +7,7 @@ const bcrypt = require("bcrypt")
 
 //SIGN UP
 router.post("/signup", (req,res)=>{
-    db.User.create({
+    db.User.insert({
         username:req.body.username,
         password:req.body.password,
         email: req.body.email,
@@ -23,10 +24,8 @@ router.post("/signup", (req,res)=>{
 
 //LOGIN
 router.post("/login", (req,res)=>{
-    db.User.findOne({
-        where:{
-            username:req.body.username
-        }
+    db.User.find({
+        username:req.body.username   
     }).then(user=>{
         if(!user){
           return res.status(404).send("no such user")
@@ -52,4 +51,10 @@ router.post("/login", (req,res)=>{
 router.get("/logout", (req,res)=>{
     req.session.destroy();
 })
+
+//READ SESSIONS
+router.get('/readsessions',(req,res)=>{
+  res.json(req.session);
+})
+
 module.exports = router

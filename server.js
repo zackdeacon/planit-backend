@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 const models = require("./models");
 const seed = require("./seeds/seed");
+var allRoutes = require('./controllers');
 
 //sessions
 const session = require("express-session")
@@ -50,6 +51,7 @@ app.use(session({
 }))
 
 // API routes
+app.use('/',allRoutes);
 
 // Sending every other request to the PLANiT React app
 app.get("*", (req, res) => {
