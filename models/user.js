@@ -43,7 +43,7 @@ const userSchema = new Schema({
       ref: "Map",
     },
   ],
-}, { timestamps: { createdAt: "joinedAt" } });
+}, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);
 

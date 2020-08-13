@@ -1,4 +1,5 @@
-import React,{useState} from 'react';
+import React from 'react';
+import Home from "./pages/Home/Home"
 // import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import './App.css';
 // import MapForm from "./components/MapForm/mapform";
@@ -6,9 +7,9 @@ import './App.css';
 function App() {
   // const [loginFormData, setLoginFormData]=
   return (
-    <div className="App">
-      {/* <MapForm/> */}
-    </div>
+    <>
+      <Home />
+    </>
   );
 }
 

@@ -8,12 +8,17 @@ const voteSchema = new Schema({
     ref: "User",
     required: true,
   },
-  username: {
-    type: String,
-    required: true,
-  },
   vote: Boolean,
 }, { timestamps: true });
+
+const commentSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  message: String,
+}, { timestamps: true })
 
 const suggestionSchema = new Schema({
   author: {
@@ -42,7 +47,8 @@ const suggestionSchema = new Schema({
   cost: Number,
   date: Date,
   votes: [voteSchema],
-}, { timestamps: { createdAt: "suggestedAt" } });
+  comments: [commentSchema],
+}, { timestamps: true });
 
 const Suggestion = mongoose.model("Suggestion", suggestionSchema);
 
