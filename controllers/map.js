@@ -13,4 +13,22 @@ router.get("/", (req, res) => {
     });
 });
 
+router.post("/new", (req,res)=>{
+  db.Map.create({
+    name: req.body.name,
+    creator: req.body.creator,
+    guests: req.body.guests,
+    dates: {
+      start: req.body.dates.start,
+      end: req.body.dates.end
+    },
+    destinations: req.body.destinations,
+  }).then(newMap=>{
+    res.json(newMap)
+    res.status(204).end()
+  }).catch(err=>{
+    console.log(err)
+    res.status(500).end()
+  })
+})
 module.exports = router;

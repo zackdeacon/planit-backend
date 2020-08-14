@@ -11,12 +11,6 @@ const mapSchema = new Schema({
     ref: "User",
     required: true,
   },
-  admins: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
   guests: [
     {
       type: Schema.Types.ObjectId,
@@ -24,16 +18,13 @@ const mapSchema = new Schema({
     },
   ],
   dates: {
-    start: Date,
-    end: Date,
+    start: {
+      type: String
+    },
+    end: {
+      type: String
+    },
   },
-  destinations: [String],
-  suggestionCategories: [
-    {
-      name: String,
-      oneChoice: Boolean,
-    }
-  ],
   suggestions: [
     {
       type: Schema.Types.ObjectId,
@@ -46,6 +37,11 @@ const mapSchema = new Schema({
       ref: "Chat",
     },
   ],
+  destinations: [String],
+  suggestionCategories: {
+    type: [String],
+    default: ["Accomodation", "Flights", "Food", "Entertainment"],
+  },
 }, { timestamps: true });
 
 const Map = mongoose.model("Map", mapSchema);
