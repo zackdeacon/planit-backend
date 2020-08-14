@@ -48,6 +48,7 @@ router.post("/login", (req, res) => {
       }
     })
     .catch((err) => {
+      console.log(err)
       res.status(500).end();
     });
 });
@@ -61,6 +62,7 @@ router.get("/logout", (req, res) => {
 //READ SESSIONS
 router.get("/readsessions", (req, res) => {
   res.json(req.session);
+  
 });
 
 module.exports = router;
