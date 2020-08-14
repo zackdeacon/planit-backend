@@ -7,12 +7,12 @@ const bcrypt = require("bcrypt")
 
 //SIGN UP
 router.post("/signup", (req,res)=>{
-    db.User.insert({
+    db.User.create({
         username:req.body.username,
         password:req.body.password,
         email: req.body.email,
-        firstname: req.body.name.first,
-        lastname: req.body.name.last,
+        // name: req.body.name.first,
+        // name: req.body.name.last,
     }).then(function(newUser) {
         console.log(newUser);
         res.json(newUser)
@@ -24,7 +24,7 @@ router.post("/signup", (req,res)=>{
 
 //LOGIN
 router.post("/login", (req,res)=>{
-    db.User.find({
+    db.User.findOne({
         username:req.body.username   
     }).then(user=>{
         if(!user){
@@ -50,6 +50,7 @@ router.post("/login", (req,res)=>{
 //LOG OUT
 router.get("/logout", (req,res)=>{
     req.session.destroy();
+    res.send("You have been logged out!");
 })
 
 //READ SESSIONS
