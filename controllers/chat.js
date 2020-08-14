@@ -14,21 +14,21 @@ router.get("/", (req, res) => {
     });
 });
 
-//get all chats by map id
-router.get("/:mapid", (req,res)=>{
-  db.Chat.findAll({
-    where: {
-      MapId: req.params.mapid
-    },
-    include: [db.User]
-  }).then(allMapChats=>{
-    res.json(allMapChats)
-    res.status(204).end()
-  }).catch(err=>{
-    console.log(err)
-    res.status(500).end()
-  })
-})
+// //get all chats by map id
+// router.get("/:mapid", (req,res)=>{
+//   db.Chat.findAll({
+//     where: {
+//       MapId: req.params.map
+//     },
+//     include: [db.User]
+//   }).then(allMapChats=>{
+//     res.json(allMapChats)
+//     res.status(204).end()
+//   }).catch(err=>{
+//     console.log(err)
+//     res.status(500).end()
+//   })
+// })
 
 //add a new 
 router.post("/new", (req,res)=>{
