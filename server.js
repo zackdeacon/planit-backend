@@ -12,6 +12,7 @@ var allRoutes = require("./controllers");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+
 // Serving static assets
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
@@ -23,6 +24,9 @@ const reseedOnConnect = true;
 mongoose
   .connect(process.env.MONGODB_URI || "mongodb://localhost/plannit", {
     useNewUrlParser: true,
+    useCreateIndex: true,
+      useFindAndModify: false,
+      useUnifiedTopology: true,
   })
   .then(async () => {
     if (reseedOnConnect) {
@@ -53,6 +57,7 @@ app.use(
 //   })
 // );
 
+//SESION
 app.use(
   session({
     secret: "keyboard cat",
