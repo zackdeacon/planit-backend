@@ -57,16 +57,17 @@ app.use(
 // );
 
 //SESSION
+// for heroku deploy uncomment proxy, samesite and secure
 app.use(
   session({
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
-    proxy: true,
+    // proxy: true,
     cookie: {
       maxAge: 2 * 60 * 60 * 1000,
-      sameSite: "none",
-      secure: true,
+      // sameSite: "none",
+      // secure: true,
     },
   })
 );

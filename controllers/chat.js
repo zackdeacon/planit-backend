@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const db = require("../models");
 
-router.get("/", (req, res) => {
+// Get all chats from all maps and users
+router.get("/all", (req, res) => {
   db.Chat.find({})
     .then((allChats) => {
       res.json(allChats);

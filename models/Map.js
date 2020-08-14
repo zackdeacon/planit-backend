@@ -11,12 +11,6 @@ const mapSchema = new Schema({
     ref: "User",
     required: true,
   },
-  admins: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
   guests: [
     {
       type: Schema.Types.ObjectId,
@@ -28,12 +22,10 @@ const mapSchema = new Schema({
     end: Date,
   },
   destinations: [String],
-  suggestionCategories: [
-    {
-      name: String,
-      oneChoice: Boolean,
-    }
-  ],
+  suggestionCategories: {
+    type: [String],
+    default: ["Accomodation", "Flights", "Food", "Entertainment"],
+  },
   suggestions: [
     {
       type: Schema.Types.ObjectId,
