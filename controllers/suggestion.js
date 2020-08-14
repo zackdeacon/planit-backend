@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
     });
 });
 
-// Add suggestion to suggestion collecton and 
+// Add suggestion to suggestion collecton
 router.post("/new", (req, res) => {
   db.Suggestion.create({
     author: req.session.user.id,
@@ -26,45 +26,19 @@ router.post("/new", (req, res) => {
     link: req.body.link,
     cost: req.body.cost,
   }).then((suggestionDoc) => {
-    db.Map.findOne({ _id: req.body.map }).then(associatedMap => {
-      associatedMap.suggestions.push(suggestionDoc._id);
-      associatedMap.save().then(updatedMap => {
-        res.json(updatedMap)
-      }).catch(err => {
-        console.log(err);
-        res.status(500).end();
-      })
-    }).catch((err) => {
-      console.log(err);
-      res.status(500).end();
-    })
+    res.json(suggestionDoc);
   }).catch((err) => {
     console.log(err);
     res.status(500).end();
   });
 });
 
-// Delete suggestion & its id from corresponding map array
+// Delete suggestion
 router.delete("/delete", (req, res) => {
   db.Suggestion.deleteOne({
     _id: req.body.suggestionId,
   }).then((deleted) => {
-    console.log(deleted);
-    db.Map.findOne({ _id: req.body.mapId }).then(associatedMap => {
-      const updatedSuggestions = associatedMap.suggestions.filter(sugg => {
-        return sugg.id !== req.body.suggestionId
-      });
-      associatedMap.suggestions = updatedSuggestions;
-      associatedMap.save().then(updatedMap => {
-        res.json(updatedMap);
-      }).catch(err => {
-        console.log(err);
-        res.status(500).end();
-      })
-    }).catch((err) => {
-      console.log(err);
-      res.status(500).end();
-    })
+    res.json(deleted);
   }).catch((err) => {
     console.log(err);
     res.status(500).end();
