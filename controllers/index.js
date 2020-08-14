@@ -5,7 +5,7 @@ const userRoutes = require("./user");
 const mapRoutes = require("./map");
 const suggestionRoutes = require("./suggestion");
 const chatRoutes = require("./chat");
-const authRoutes = require("./authController");
+const authRoutes = require("./auth");
 
 router.use("/api/users", userRoutes);
 router.use("/api/maps", mapRoutes);

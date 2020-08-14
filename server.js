@@ -12,21 +12,20 @@ var allRoutes = require("./controllers");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
 // Serving static assets
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
 // Connect to MongoDB
-// Change boolean to true to reset database on server start
+// Change boolean to true to reseed database on server start
 const reseedOnConnect = true;
 mongoose
   .connect(process.env.MONGODB_URI || "mongodb://localhost/plannit", {
     useNewUrlParser: true,
     useCreateIndex: true,
-      useFindAndModify: false,
-      useUnifiedTopology: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true,
   })
   .then(async () => {
     if (reseedOnConnect) {
@@ -57,7 +56,7 @@ app.use(
 //   })
 // );
 
-//SESION
+//SESSION
 app.use(
   session({
     secret: "keyboard cat",
