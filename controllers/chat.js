@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const db = require("../models");
 
-//get all chats
+// Get all chats in the database
+// Passed test call
 router.get("/", (req, res) => {
   db.Chat.find({})
     .then((allChats) => {
@@ -14,9 +15,11 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:mapid", (req, res) => {
-  db.Chat.findAll({
-    map: req.params.mapid
+// Get all chats for a specific map
+// Passed test call
+router.get("/map", (req, res) => {
+  db.Chat.find({
+    mapId: req.body.id
   }).then(allMapChats => {
     res.json(allMapChats)
     res.status(204).end()
@@ -26,11 +29,12 @@ router.get("/:mapid", (req, res) => {
   })
 })
 
-//add a new 
+// Add a new chat
+// Passed test call
 router.post("/new", (req, res) => {
   db.Chat.create({
-    author: req.body.author,
-    map: req.body.map,
+    userId: req.session.user.id,
+    mapId: req.body.mapId,
     message: req.body.message
   }).then(newChat => {
     res.json(newChat)
@@ -41,7 +45,19 @@ router.post("/new", (req, res) => {
   })
 })
 
-//delete chat
+// Delete chat
+// Passed test call
+router.delete("/delete", (req, res) => {
+  db.Chat.deleteOne({
+    _id: req.body.chatId,
+  }).then(deleteData => {
+    res.json(deleteData)
+    res.status(204).end()
+  }).catch(err => {
+    console.log(err)
+    res.status(500).end()
+  })
+})
 
 
 module.exports = router;

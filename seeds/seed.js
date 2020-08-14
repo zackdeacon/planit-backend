@@ -53,8 +53,7 @@ const userSeed = [
 const mapSeed = [
   {
     name: "Team Vancouver Trip",
-    creator: undefined,
-    admins: [],
+    creatorId: undefined,
     dates: {
       start: new Date("2021-01-20"),
       end: new Date("2021-01-28"),
@@ -63,8 +62,7 @@ const mapSeed = [
   },
   {
     name: "Visit Cuba",
-    creator: undefined,
-    admins: [],
+    creatorId: undefined,
     dates: {
       start: new Date("2021-03-06"),
       end: new Date("2021-03-20"),
@@ -75,8 +73,8 @@ const mapSeed = [
 
 const suggestionSeed = [
   {
-    author: "",
-    map: "",
+    userId: "",
+    mapId: "",
     title: "AirBnb house",
     category: "Accomodation",
     description: "Cool AirBnb with a hottub in Whistler",
@@ -87,13 +85,13 @@ const suggestionSeed = [
 
 const chatSeed = [
   {
-    author: "",
-    map: "",
+    userId: "",
+    mapId: "",
     message: "Wow, live chat! This is really cool :)",
   },
   {
-    author: "",
-    map: "",
+    userId: "",
+    mapId: "",
     message: "I wonder if they made this using socket.io?",
   },
 ]
@@ -111,9 +109,9 @@ async function addUsers() {
 
 async function addMaps(users) {
   // Add created user ids to maps
-  mapSeed[0].creator = users.ids[0];
+  mapSeed[0].creatorId = users.ids[0];
   mapSeed[0].guests = users.ids.filter(id => id !== users.ids[0]);
-  mapSeed[1].creator = users.ids[1];
+  mapSeed[1].creatorId = users.ids[1];
 
   // Add 2 maps
   const mapDocs = await models.Map.insertMany(mapSeed)
@@ -141,8 +139,8 @@ async function addMaps(users) {
 
 async function addSuggestion(users, maps) {
   // Add real ids into suggestion
-  suggestionSeed[0].author = users.ids[0];
-  suggestionSeed[0].map = maps.ids[0];
+  suggestionSeed[0].userId = users.ids[0];
+  suggestionSeed[0].mapId = maps.ids[0];
   suggestionSeed[0].votes = [
     { userId: users.ids[0], vote: true },
     { userId: users.ids[1], vote: false },
@@ -157,25 +155,19 @@ async function addSuggestion(users, maps) {
   const suggestionDoc = await models.Suggestion.create(suggestionSeed[0]);
   console.log("Suggestion doc: ", suggestionDoc);
 
-  // Add suggestion to corresponding map 
-  maps.docs[0].suggestions.push(suggestionDoc._id);
-
   return suggestionDoc;
 }
 
 async function addChats(users, maps) {
   // Add generated id details to chat objects
-  chatSeed[0].author = users.ids[4];
-  chatSeed[0].map = maps.ids[0];
+  chatSeed[0].userId = users.ids[4];
+  chatSeed[0].mapId = maps.ids[0];
 
-  chatSeed[1].author = users.ids[4];
-  chatSeed[1].map = maps.ids[0];
+  chatSeed[1].userId = users.ids[4];
+  chatSeed[1].mapId = maps.ids[0];
 
   const chatDocs = await models.Chat.insertMany(chatSeed);
   console.log("Chat docs: ", chatDocs);
-
-  const chatIds = chatDocs.map(chat => chat._id);
-  maps.docs[0].chats.push(...chatIds);
 
   return chatDocs;
 }
@@ -185,8 +177,6 @@ async function seed() {
   const maps = await addMaps(users);
   const suggestion = await addSuggestion(users, maps);
   const chats = await addChats(users, maps);
-
-  maps.docs[0].save();
 };
 
 module.exports = seed;

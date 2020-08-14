@@ -6,7 +6,7 @@ const mapSchema = new Schema({
     type: String,
     required: true,
   },
-  creator: {
+  creatorId: {
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
@@ -19,10 +19,12 @@ const mapSchema = new Schema({
   ],
   dates: {
     start: {
-      type: String
+      type: String,
+      default: "",
     },
     end: {
-      type: String
+      type: String,
+      default: "",
     },
   },
   destinations: [String],

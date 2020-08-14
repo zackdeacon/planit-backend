@@ -21,12 +21,12 @@ const commentSchema = new Schema({
 }, { timestamps: true })
 
 const suggestionSchema = new Schema({
-  author: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
-  map: {
+  mapId: {
     type: Schema.Types.ObjectId,
     ref: "Map",
     required: true,
