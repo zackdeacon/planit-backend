@@ -35,19 +35,21 @@ router.post("/login", (req, res) => {
         return res.status(404).send("no such user");
       } else {
         //it will compare the passed in password to what is stored in the database
+        console.log(user)
         if (bcrypt.compareSync(req.body.password, user.password)) {
           //whenever i signin, add this object to my session key (will only show up after I signin)
           req.session.user = {
             id: user.id,
             username: user.username,
           };
-          res.send("login sucessful!");
+          res.send(req.session);
         } else {
           res.status(401).send("wrong password");
         }
       }
     })
     .catch((err) => {
+      console.log(err)
       res.status(500).end();
     });
 });
@@ -61,6 +63,7 @@ router.get("/logout", (req, res) => {
 //READ SESSIONS
 router.get("/readsessions", (req, res) => {
   res.json(req.session);
+  
 });
 
 module.exports = router;
