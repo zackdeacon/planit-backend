@@ -111,14 +111,17 @@ app.use("/", allRoutes);
 
 let server = app.listen(PORT, () => {
   let io = require("socket.io")(server);
-  // server side set up for socket.io
   io.on("connection", (socket) => {
-    console.log("it worked");
     socket.emit("your id", socket.id);
-    // socket.emit("your name", req.session.name);
+
     socket.on("send message", (body) => {
       console.log("Sending Message");
       io.emit("message", body);
+    });
+
+    socket.on("new message", () => {
+      console.log("Sending Message");
+      io.emit("update messages", body);
     });
   });
 
@@ -127,33 +130,4 @@ let server = app.listen(PORT, () => {
   );
 });
 
-// let io = require("socket.io")(server);
-
-// // server side set up for socket.io
-// io.on("connection", (socket) => {
-//   console.log("it worked");
-//   socket.emit("your id", socket.id);
-//   socket.on("send message", (body) => {
-//     console.log("Sending Message");
-//     io.emit("message", body);
-//   });
-// });
-
-  //attempt for Mongo
-  // let chats = db.collection("chats");
-  // chats.find().limit(100).sort(socket.id).toArray(function(err,res){
-  //   if(err){
-  //     throw err;
-  //   }
-  //   socket.emit("output", res);
-  // })
-  //handle input events
-  // socket.on("input", function(data){
-  //   let name = data.name;
-  //   let message= data.message;
-
-  //   chats.insert({name: name, message: message}, function(){
-  //     client.emit("output", [data]);
-  //   })
-  // })
 
