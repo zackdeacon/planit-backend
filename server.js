@@ -1,15 +1,15 @@
 const express = require("express");
-const cors = require("cors");
 const session = require("express-session");
+const cors = require("cors");
 const mongoose = require("mongoose");
-const PORT = process.env.PORT || 8080;
-const app = express();
+const nodemailer = require("nodemailer");
+
 const models = require("./models");
+const allRoutes = require("./controllers");
 const seed = require("./seeds/seed");
-var allRoutes = require("./controllers");
-const router = require("./controllers/auth")
-var db = require("./models");
-const nodemailer = require("nodemailer")
+
+const app = express();
+const PORT = process.env.PORT || 8080;
 
 
 //Nodemailer set up 
@@ -28,12 +28,12 @@ const nodemailer = require("nodemailer")
 //   from: 'zackdeacon347@gmail.com',
 //   to: 'recipient address',
 //   subject: 'Welcome to PLANiT!',
-//   text: `Welcome to PLANiT! We're excited to assist you with all of your trip planning needs. If you have any concerns about our app please report Vinny to the appropriate authorities immediately. Good day!`
+//   text: `Welcome to PLANiT! We're excited to assist you with all of your trip planning needs. If you have any concerns about our app please report Vinny to the appropriate authorities immediately. Good day!` 
 // }
 
 //Error catching or success status 
-// transporter.sendMail(mailOptions, function (error, info) {
-//   if (error) {
+// transporter.sendMail(mailOptions, function(error, info){
+//   if(error) {
 //     console.log(error);
 //   } else {
 //     console.log('Email sent: ' + info.response)
@@ -129,5 +129,3 @@ let server = app.listen(PORT, () => {
     `🌎 ==> API server now listening on port ${PORT}! http://localhost:${PORT}`
   );
 });
-
-
