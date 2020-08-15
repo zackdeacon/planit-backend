@@ -21,6 +21,7 @@
     "express-session": "^1.17.1",
     "if-env": "^1.0.4",
     "mongoose": "^5.9.27",
+    "nodemailer": "^6.4.11",
     "socket.io": "^2.3.0"
   }
 }
