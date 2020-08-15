@@ -33,7 +33,7 @@ router.get("/map", (req, res) => {
 // Passed test call
 router.post("/new", (req, res) => {
   db.Chat.create({
-    userId: req.session.user.id,
+    userId: req.body.userId,
     mapId: req.body.mapId,
     message: req.body.message
   }).then(newChat => {
