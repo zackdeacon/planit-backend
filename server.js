@@ -57,6 +57,7 @@ app.use(
 // );
 
 //SESSION
+// for heroku deploy uncomment proxy, samesite and secure
 app.use(
   session({
     secret: "keyboard cat",
