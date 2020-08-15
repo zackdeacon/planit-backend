@@ -1,15 +1,15 @@
 const express = require("express");
-const cors = require("cors");
 const session = require("express-session");
+const cors = require("cors");
 const mongoose = require("mongoose");
-const PORT = process.env.PORT || 8080;
-const app = express();
+const nodemailer = require("nodemailer");
+
 const models = require("./models");
+const allRoutes = require("./controllers");
 const seed = require("./seeds/seed");
-var allRoutes = require("./controllers");
-const router = require("./controllers/auth")
-var db = require("./models");
-const nodemailer = require("nodemailer")
+
+const app = express();
+const PORT = process.env.PORT || 8080;
 
 
 //Nodemailer set up 
@@ -77,7 +77,7 @@ mongoose
 // Uncomment for development
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "http://localhost:3000/chat"],
     credentials: true,
   })
 );
@@ -111,53 +111,15 @@ app.use("/", allRoutes);
 
 let server = app.listen(PORT, () => {
   let io = require("socket.io")(server);
-// server side set up for socket.io
-io.on("connection", (socket) => {
-  console.log("it worked");
-  socket.emit("your id", socket.id);
-  // socket.emit("your name", req.session.name);
-  socket.on("send message", (message) => {
-    console.log("Sending Message");
-    io.emit("message", message); //sends message out @socketRef.current.emit("send message", messageObject); in chat.js frontend
-  });
-  socket.on("new message", () => {
-    io.emit("update messages"); 
-  });
+  io.on("connection", (socket) => {
+    socket.emit("your id", socket.id);
 
-});
+    socket.on("new message", () => {
+      io.emit("update messages");
+    });
+  });
 
   console.log(
     `🌎 ==> API server now listening on port ${PORT}! http://localhost:${PORT}`
   );
 });
-
-// let io = require("socket.io")(server);
-
-// // server side set up for socket.io
-// io.on("connection", (socket) => {
-//   console.log("it worked");
-//   socket.emit("your id", socket.id);
-//   socket.on("send message", (body) => {
-//     console.log("Sending Message");
-//     io.emit("message", body);
-//   });
-// });
-
-  //attempt for Mongo
-  // let chats = db.collection("chats");
-  // chats.find().limit(100).sort(socket.id).toArray(function(err,res){
-  //   if(err){
-  //     throw err;
-  //   }
-  //   socket.emit("output", res);
-  // })
-  //handle input events
-  // socket.on("input", function(data){
-  //   let name = data.name;
-  //   let message= data.message;
-
-  //   chats.insert({name: name, message: message}, function(){
-  //     client.emit("output", [data]);
-  //   })
-  // })
-
