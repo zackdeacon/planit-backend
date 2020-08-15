@@ -77,7 +77,7 @@ mongoose
 // Uncomment for development
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "http://localhost:3000/chat"],
     credentials: true,
   })
 );
@@ -114,14 +114,8 @@ let server = app.listen(PORT, () => {
   io.on("connection", (socket) => {
     socket.emit("your id", socket.id);
 
-    socket.on("send message", (body) => {
-      console.log("Sending Message");
-      io.emit("message", body);
-    });
-
     socket.on("new message", () => {
-      console.log("Sending Message");
-      io.emit("update messages", body);
+      io.emit("update messages");
     });
   });
 

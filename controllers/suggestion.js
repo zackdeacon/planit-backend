@@ -1,5 +1,4 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const router = express.Router();
 const db = require("../models");
 
@@ -20,7 +19,7 @@ router.get("/", (req, res) => {
 // Passed test call
 router.post("/new", (req, res) => {
   db.Suggestion.create({
-    userId: req.session.user.id,
+    userId: req.body.userId,
     mapId: req.body.mapId,
     title: req.body.title,
     category: req.body.category,

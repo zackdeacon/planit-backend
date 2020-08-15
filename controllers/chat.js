@@ -6,7 +6,7 @@ const db = require("../models");
 // Passed test call
 router.get("/", (req, res) => {
   db.Chat.find({})
-    .then((allChats) => {
+    .then(allChats => {
       res.json(allChats);
     })
     .catch((err) => {
@@ -17,9 +17,9 @@ router.get("/", (req, res) => {
 
 // Get all chats for a specific map
 // Passed test call
-router.get("/map", (req, res) => {
+router.get("/map/:mapId", (req, res) => {
   db.Chat.find({
-    mapId: req.body.id
+    mapId: req.params.mapId
   }).then(allMapChats => {
     res.json(allMapChats)
     res.status(204).end()

@@ -61,9 +61,9 @@ router.get("/logout", (req, res) => {
 });
 
 //READ SESSIONS
-router.get("/readsessions", (req, res) => {
+router.get("/readsession", (req, res) => {
   res.json(req.session);
-  
+
 });
 
 module.exports = router;
