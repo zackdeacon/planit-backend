@@ -10,10 +10,10 @@ router.post("/signup", (req, res) => {
     username: req.body.username,
     password: req.body.password,
     email: req.body.email,
-    name: {
-      first: req.body.name.first,
-      last: req.body.name.last,
-    },
+    // name: {
+    //   first: req.body.name.first,
+    //   last: req.body.name.last,
+    // },
   })
     .then(function (newUser) {
       console.log(newUser);
@@ -27,6 +27,7 @@ router.post("/signup", (req, res) => {
 
 //LOGIN
 router.post("/login", (req, res) => {
+  console.log("here is the password",req.body.password)
   db.User.findOne({
     username: req.body.username,
   })
@@ -41,10 +42,13 @@ router.post("/login", (req, res) => {
           req.session.user = {
             id: user.id,
             username: user.username,
+            email: user.email
           };
           res.send(req.session);
+          // console.log(req.body)
         } else {
           res.status(401).send("wrong password");
+          // console.log(req.body)
         }
       }
     })

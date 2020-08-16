@@ -18,21 +18,25 @@ router.get("/", (req, res) => {
 // Add suggestion to suggestion collecton
 // Passed test call
 router.post("/new", (req, res) => {
-  db.Suggestion.create({
-    userId: req.body.userId,
-    mapId: req.body.mapId,
-    title: req.body.title,
-    category: req.body.category,
-    description: req.body.description,
-    link: req.body.link,
-    cost: req.body.cost,
-  }).then((newSuggestion) => {
-    res.json(newSuggestion);
-  }).catch((err) => {
-    console.log(err);
-    res.status(500).end();
-  });
-});
+  // if(!req.session.user){
+  //   res.status(401).send("login required")
+  // } else{
+    db.Suggestion.create({
+//       userId: req.session.user.id,
+      userId: req.body.userId,
+      mapId: req.body.mapId,
+      title: req.body.title,
+      category: req.body.category,
+      description: req.body.description,
+      link: req.body.link,
+      cost: req.body.cost,
+    }).then((newSuggestion) => {
+      res.json(newSuggestion);
+    }).catch((err) => {
+      console.log(err);
+      res.status(500).end();
+    });
+  // }
 
 // Delete a suggestion by id
 // Passed a test call

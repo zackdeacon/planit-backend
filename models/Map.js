@@ -6,17 +6,25 @@ const mapSchema = new Schema({
     type: String,
     required: true,
   },
-  creatorId: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+  creator: {
+    type: String
   },
+  // creatorId: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "User",
+  //   required: true,
+  // },
   guests: [
     {
-      type: Schema.Types.ObjectId,
-      ref: "User",
+      type: String
     },
   ],
+  // guests: [
+  //   {
+  //     type: Schema.Types.ObjectId,
+  //     ref: "User",
+  //   },
+  // ],
   dates: {
     start: {
       type: String,

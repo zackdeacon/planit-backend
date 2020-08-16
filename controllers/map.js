@@ -31,22 +31,28 @@ router.get("/one/id/:mapId", (req, res) => {
 // Create a new map
 // Passed test call
 router.post("/new", (req, res) => {
-  const { name, creatorId, dates, destinations } = req.body;
-  db.Map.create({
-    name: name,
-    creatorId: creatorId,
-    dates: {
-      start: dates ? dates.start : "",
-      end: dates ? dates.end : "",
-    },
-    destinations: destinations,
-  }).then(newMap => {
-    res.json(newMap)
-    res.status(204).end()
-  }).catch(err => {
-    console.log(err)
-    res.status(500).end()
-  })
+  // if(!req.session.user){
+  //   res.status(401).send("login required")
+  // } else{
+    const { name, guests, dates, destinations } = req.body;
+    db.Map.create({
+      name: name,
+      // creatorId: req.session.user.id,
+      dates: {
+        start: dates ? dates.start : "",
+        end: dates ? dates.end : "",
+      },
+      guests: guests,
+      destinations: destinations,
+    }).then(newMap => {
+      res.json(newMap)
+      res.status(204).end()
+    }).catch(err => {
+      console.log(err)
+      res.status(500).end()
+    })
+  // }
+  
 });
 
 // Delete map
