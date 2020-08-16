@@ -34,14 +34,16 @@ router.post("/new", (req, res) => {
   // if(!req.session.user){
   //   res.status(401).send("login required")
   // } else{
-    const { name, creatorId, dates, destinations } = req.body;
+    const { name, creatorId, creator, guests, dates, destinations } = req.body;
     db.Map.create({
       name: name,
-      creatorId: creatorId,
+      creator: creator,
+      // creatorId: creatorId,
       dates: {
         start: dates ? dates.start : "",
         end: dates ? dates.end : "",
       },
+      guests: guests,
       destinations: destinations,
     }).then(newMap => {
       res.json(newMap)

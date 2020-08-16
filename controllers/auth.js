@@ -10,10 +10,10 @@ router.post("/signup", (req, res) => {
     username: req.body.username,
     password: req.body.password,
     email: req.body.email,
-    name: {
-      first: req.body.name.first,
-      last: req.body.name.last,
-    },
+    // name: {
+    //   first: req.body.name.first,
+    //   last: req.body.name.last,
+    // },
   })
     .then(function (newUser) {
       console.log(newUser);
