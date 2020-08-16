@@ -17,8 +17,8 @@ router.get("/", (req, res) => {
 
 // Get one map by id
 // Passed test call
-router.get("/one/id", (req, res) => {
-  db.Map.findOne({ _id: req.body.id })
+router.get("/one/id/:mapId", (req, res) => {
+  db.Map.findOne({ _id: req.params.mapId })
     .then((map) => {
       res.json(map);
     })

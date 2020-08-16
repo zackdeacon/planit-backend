@@ -6,7 +6,7 @@ const db = require("../models");
 // Passed test call
 router.get("/", (req, res) => {
   db.Chat.find({})
-    .then((allChats) => {
+    .then(allChats => {
       res.json(allChats);
     })
     .catch((err) => {
@@ -17,9 +17,9 @@ router.get("/", (req, res) => {
 
 // Get all chats for a specific map
 // Passed test call
-router.get("/map", (req, res) => {
+router.get("/map/:mapId", (req, res) => {
   db.Chat.find({
-    mapId: req.body.id
+    mapId: req.params.mapId
   }).then(allMapChats => {
     res.json(allMapChats)
     res.status(204).end()
@@ -31,25 +31,37 @@ router.get("/map", (req, res) => {
 
 // Add a new chat
 // Passed test call
-router.post("/new", (req, res) => {
-  if(!req.session.user){
-    res.status(401).send("login required")
-  } else{
-    db.Chat.create({
-      userId: req.session.user.id,
-      mapId: req.body.mapId,
-      message: req.body.message
-    }).then(newChat => {
-      res.json(newChat)
-      res.status(204).end()
-    }).catch(err => {
-      console.log(err)
-      res.status(500).end()
-    })
-  }
-  
+  db.Chat.create({
+    userId: req.body.userId,
+    mapId: req.body.mapId,
+    message: req.body.message
+  }).then(newChat => {
+    res.json(newChat)
+    res.status(204).end()
+  }).catch(err => {
+    console.log(err)
+    res.status(500).end()
+  })
 })
 
+// Session Conditional >> When ready, uncomment
+// router.post("/new", (req, res) => {
+//   if(!req.session.user){
+//     res.status(401).send("login required")
+//   } else{
+//     db.Chat.create({
+//       userId: req.session.user.id,
+//       mapId: req.body.mapId,
+//       message: req.body.message
+//     }).then(newChat => {
+//       res.json(newChat)
+//       res.status(204).end()
+//     }).catch(err => {
+//       console.log(err)
+//       res.status(500).end()
+//     })
+//   }
+  
 // Delete chat
 // Passed test call
 router.delete("/delete", (req, res) => {

@@ -6,8 +6,8 @@ const db = require("../models");
 // Passed test call
 router.get("/", (req, res) => {
   db.User.find({})
-    .then((allChats) => {
-      res.json(allChats);
+    .then((allUsers) => {
+      res.json(allUsers);
     })
     .catch((err) => {
       console.log(err);
@@ -17,10 +17,23 @@ router.get("/", (req, res) => {
 
 // Get one user by id
 // Passed test call
-router.get("/one/id", (req, res) => {
-  db.User.findOne({ _id: req.body.id })
-    .then((map) => {
-      res.json(map);
+router.get("/one/id/:userId", (req, res) => {
+  db.User.findOne({ _id: req.params.userId })
+    .then((user) => {
+      res.json(user);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).end();
+    });
+});
+
+// Get one user by username
+// Passed test call
+router.get("/one/username/:username", (req, res) => {
+  db.User.findOne({ username: req.params.username })
+    .then((user) => {
+      res.json(user);
     })
     .catch((err) => {
       console.log(err);
@@ -31,7 +44,6 @@ router.get("/one/id", (req, res) => {
 // Delete users by id
 // Passed test call
 router.delete("/delete", (req, res) => {
-  console.log(req.body.id);
   db.User.deleteOne({
     _id: req.body.id,
   }).then(async (userDel) => {
