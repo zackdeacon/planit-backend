@@ -31,13 +31,13 @@ router.get("/one/id", (req, res) => {
 // Create a new map
 // Passed test call
 router.post("/new", (req, res) => {
-  if(!req.session.user){
-    res.status(401).send("login required")
-  } else{
+  // if(!req.session.user){
+  //   res.status(401).send("login required")
+  // } else{
     const { name, guests, dates, destinations } = req.body;
     db.Map.create({
       name: name,
-      creatorId: req.session.user.id,
+      // creatorId: req.session.user.id,
       dates: {
         start: dates ? dates.start : "",
         end: dates ? dates.end : "",
@@ -51,7 +51,7 @@ router.post("/new", (req, res) => {
       console.log(err)
       res.status(500).end()
     })
-  }
+  // }
   
 });
 
