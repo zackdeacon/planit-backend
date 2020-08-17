@@ -38,7 +38,6 @@ router.post("/new", (req, res) => {
     });
   })
 
-
 // Delete a suggestion by id
 // Passed a test call
 router.delete("/delete", (req, res) => {
