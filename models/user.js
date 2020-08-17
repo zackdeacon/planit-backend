@@ -17,16 +17,16 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    // name: {
-    //   first: {
-    //     type: String,
-    //     required: true,
-    //   },
-    //   last: {
-    //     type: String,
-    //     required: true,
-    //   },
-    // },
+    name: {
+      first: {
+        type: String,
+        required: true,
+      },
+      last: {
+        type: String,
+        required: true,
+      },
+    },
     createdMaps: [
       {
         type: Schema.Types.ObjectId,

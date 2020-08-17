@@ -6,13 +6,14 @@ const bcrypt = require("bcrypt");
 
 //SIGN UP
 router.post("/signup", (req, res) => {
+  const { username, password, email, name } = req.body;
   db.User.create({
-    username: req.body.username,
-    password: req.body.password,
-    email: req.body.email,
+    username: username,
+    password: password,
+    email: email,
     name: {
-      first: req.body.name.first,
-      last: req.body.name.last,
+      first: name ? name.first : "",
+      last: name ? name.last : "",
     },
   })
     .then(function (newUser) {
