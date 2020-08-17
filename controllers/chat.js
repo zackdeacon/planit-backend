@@ -29,40 +29,26 @@ router.get("/map/:mapId", (req, res) => {
   })
 })
 
-// // Add a new chat
-// // Passed test call
-//   db.Chat.create({
-//     userId: req.body.userId,
-//     mapId: req.body.mapId,
-//     message: req.body.message
-//   }).then(newChat => {
-//     res.json(newChat)
-//     res.status(204).end()
-//   }).catch(err => {
-//     console.log(err)
-//     res.status(500).end()
-//   })
-// })
 
 // Session Conditional >> When ready, uncomment
 router.post("/new", (req, res) => {
-  if(!req.session.user){
+  if (!req.session.user) {
     res.status(401).send("login required")
-  } else{
+  } else {
     db.Chat.create({
       userId: req.session.user.id,
       mapId: req.body.mapId,
-      message: req.body.message
+      message: req.body.message,
     }).then(newChat => {
-      res.json(newChat)
+      res.json(newChat);
       res.status(204).end()
     }).catch(err => {
-      console.log(err)
+      console.log(err);
       res.status(500).end()
     })
   }
 })
-  
+
 // Delete chat
 // Passed test call
 router.delete("/delete", (req, res) => {
