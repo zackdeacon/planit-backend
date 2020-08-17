@@ -9,22 +9,16 @@ const mapSchema = new Schema({
   creator: {
     type: String
   },
-  // creatorId: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "User",
-  //   required: true,
-  // },
+  creatorId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   guests: [
     {
       type: String
     },
   ],
-  // guests: [
-  //   {
-  //     type: Schema.Types.ObjectId,
-  //     ref: "User",
-  //   },
-  // ],
   dates: {
     start: {
       type: String,

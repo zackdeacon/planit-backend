@@ -38,7 +38,7 @@ router.post("/login", (req, res) => {
         console.log(user)
         if (bcrypt.compareSync(req.body.password, user.password)) {
           req.session.user = {
-            id: user.id,
+            id: user._id,
             username: user.username,
             email: user.email
           };
