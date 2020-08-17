@@ -40,11 +40,11 @@ router.post("/login", (req, res) => {
         if (bcrypt.compareSync(req.body.password, user.password)) {
           //whenever i signin, add this object to my session key (will only show up after I signin)
           req.session.user = {
-            id: user.id,
+            id: user._id,
             username: user.username,
             email: user.email
-          };
-          res.send(req.session);
+          }
+          res.json(req.session);
           // console.log(req.body)
         } else {
           res.status(401).send("wrong password");
