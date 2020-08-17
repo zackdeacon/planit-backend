@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../models");
+const nodemailer = require("../nodemailer");
+const inviter = require("./utils/invitations");
 
 // Get all maps in the database
 // Passed test call
@@ -28,6 +30,23 @@ router.get("/one/id/:mapId", (req, res) => {
     });
 });
 
+router.post("/emailTestRoute", (req, res) => {
+  const { to, creatorName, tripName } = req.body;
+  const emailInfo = { tripName, creatorName, isNewUser: true };
+  nodemailer.sendEmail({
+    to: to,
+    subject: nodemailer.invitation.subject(creatorName),
+    text: nodemailer.invitation.text(emailInfo),
+    html: nodemailer.invitation.html(emailInfo),
+  }).then(info => {
+    console.log(info);
+    res.json(info);
+  }).catch(err => {
+    console.log(err);
+    res.json(err);
+  })
+})
+
 // Create a new map
 // Passed test call
 router.post("/new", (req, res) => {
@@ -46,6 +65,13 @@ router.post("/new", (req, res) => {
       guests: guests,
       destinations: destinations,
     }).then(newMap => {
+      const inviterInfo = {
+        tripName: newMap.name,
+        tripId: newMap._id,
+        creatorId: newMap.creatorId,
+        guestEmails: newMap.guests,
+      };
+      inviter.inviteGuests(inviterInfo);
       res.json(newMap)
       res.status(204).end()
     }).catch(err => {
