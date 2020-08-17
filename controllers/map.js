@@ -31,12 +31,9 @@ router.get("/one/id/:mapId", (req, res) => {
 // Create a new map
 // Passed test call
 router.post("/new", (req, res) => {
-  console.log(req.session.user)
-  if(!req.session.user){
+  if (!req.session.user) {
     res.status(401).send("login required")
-  }
-  else {
-    
+  } else {
     const { name, guests, dates, destinations } = req.body;
     db.Map.create({
       name: name,
@@ -56,7 +53,6 @@ router.post("/new", (req, res) => {
       res.status(500).end()
     })
   }
-  
 });
 
 // Delete map

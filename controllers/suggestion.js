@@ -18,12 +18,11 @@ router.get("/", (req, res) => {
 // Add suggestion to suggestion collecton
 // Passed test call
 router.post("/new", (req, res) => {
-  // if(!req.session.user){
-  //   res.status(401).send("login required")
-  // } else{
+  if (!req.session.user) {
+    res.status(401).send("login required")
+  } else {
     db.Suggestion.create({
-//       userId: req.session.user.id,
-      userId: req.body.userId,
+      userId: req.session.user.id,
       mapId: req.body.mapId,
       title: req.body.title,
       category: req.body.category,
@@ -36,7 +35,9 @@ router.post("/new", (req, res) => {
       console.log(err);
       res.status(500).end();
     });
-  })
+  }
+});
+
 
 // Delete a suggestion by id
 // Passed a test call

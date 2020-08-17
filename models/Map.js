@@ -19,12 +19,6 @@ const mapSchema = new Schema({
       type: String
     },
   ],
-  // guests: [
-  //   {
-  //     type: Schema.Types.ObjectId,
-  //     ref: "User",
-  //   },
-  // ],
   dates: {
     start: {
       type: String,
