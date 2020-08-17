@@ -18,15 +18,15 @@ const PORT = process.env.PORT || 8080;
 // var transporter = nodemailer.createTransport({
 //   service: 'gmail',
 //   auth: {
-//     user: 'zackdeacon347@gmail.com',
-//     pass: 'Senior10'
+//     user: 'teamplanitcartographers@gmail.com',
+//     pass: 'planitpassword1'
 //   }
 // });
 
 //Creating message outline 
 // var mailOptions = {
-//   from: 'zackdeacon347@gmail.com',
-//   to: 'recipient address',
+//   from: 'teamplanitcartographers@gmail.com',
+//   to: 'zackdeacon347@gmail.com',
 //   subject: 'Welcome to PLANiT!',
 //   text: `Welcome to PLANiT! We're excited to assist you with all of your trip planning needs. If you have any concerns about our app please report Vinny to the appropriate authorities immediately. Good day!` 
 // }

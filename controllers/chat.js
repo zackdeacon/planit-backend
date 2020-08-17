@@ -31,18 +31,18 @@ router.get("/map/:mapId", (req, res) => {
 
 // Add a new chat
 // Passed test call
-  db.Chat.create({
-    userId: req.body.userId,
-    mapId: req.body.mapId,
-    message: req.body.message
-  }).then(newChat => {
-    res.json(newChat)
-    res.status(204).end()
-  }).catch(err => {
-    console.log(err)
-    res.status(500).end()
-  })
-})
+  // db.Chat.create({
+  //   userId: req.body.userId,
+  //   mapId: req.body.mapId,
+  //   message: req.body.message
+  // }).then(newChat => {
+  //   res.json(newChat)
+  //   res.status(204).end()
+  // }).catch(err => {
+  //   console.log(err)
+  //   res.status(500).end()
+  // })
+
 
 // Session Conditional >> When ready, uncomment
 // router.post("/new", (req, res) => {

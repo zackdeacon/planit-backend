@@ -36,7 +36,7 @@ router.post("/new", (req, res) => {
       console.log(err);
       res.status(500).end();
     });
-  // }
+  })
 
 // Delete a suggestion by id
 // Passed a test call
