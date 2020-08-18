@@ -2,7 +2,14 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // https://mongoosejs.com/docs/subdocs.html
-
+const voteSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  vote: Boolean,
+}, { timestamps: true });
 
 const commentSchema = new Schema({
   userId: {
@@ -39,7 +46,7 @@ const suggestionSchema = new Schema({
   link: String,
   cost: Number,
   date: Date,
-  votes: [],
+  votes: [voteSchema],
   comments: [commentSchema],
 }, { timestamps: true });
 
