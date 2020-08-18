@@ -16,9 +16,20 @@ router.post("/signup", (req, res) => {
       last: name ? name.last : "",
     },
   })
-    .then(function (newUser) {
-      console.log(newUser);
-      res.json(newUser);
+    .then(async function (newUser) {
+      const potentialUser = db.PotentialUser.findOne({ email: newUser.email });
+      if (potentialUser) {
+        newUser.invitations.push(...potentialUser.invitedMapIds);
+        const operationPromises = [];
+        operationPromises.push(await newUser.save());
+        operationPromises.push(await db.PotentialUser.deleteOne({ _id: potentialUser._id }));
+        const results = await Promise.all(operationPromises);
+        console.log(results);
+        res.json(newUser, results);
+      } else {
+        console.log(newUser);
+        res.json(newUser);
+      }
     })
     .catch(function (err) {
       console.log(err);
