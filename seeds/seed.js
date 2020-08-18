@@ -40,7 +40,7 @@ const userSeed = [
     },
   },
   {
-    username: "brycepingul",
+    username: "Brycetp11",
     password: "password",
     email: "bpingul@planit.com",
     name: {
@@ -94,6 +94,13 @@ const chatSeed = [
     mapId: "",
     message: "I wonder if they made this using socket.io?",
   },
+]
+
+const potentialUserSeed = [
+  {
+    email: "derek.watson92@gmail.com",
+    invitedMaps: [],
+  }
 ]
 
 async function addUsers() {
@@ -153,6 +160,8 @@ async function addSuggestion(users, maps) {
 
   // Create suggestion doc
   const suggestionDoc = await models.Suggestion.create(suggestionSeed[0]);
+  suggestionDoc.votes.push({ userId: users.ids[3], vote: false });
+  suggestionDoc.save();
   console.log("Suggestion doc: ", suggestionDoc);
 
   return suggestionDoc;
@@ -172,11 +181,20 @@ async function addChats(users, maps) {
   return chatDocs;
 }
 
+async function addPotentialUsers(maps) {
+  potentialUserSeed[0].invitedMaps.push(maps.ids[0]);
+  const potentialUserDocs = await models.PotentialUser.create(potentialUserSeed[0]);
+  console.log("Potential User docs: ", potentialUserDocs);
+
+  return potentialUserDocs;
+}
+
 async function seed() {
   const users = await addUsers();
   const maps = await addMaps(users);
   const suggestion = await addSuggestion(users, maps);
   const chats = await addChats(users, maps);
+  const potentialUsers = await addPotentialUsers(maps);
 };
 
 module.exports = seed;

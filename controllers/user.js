@@ -19,6 +19,10 @@ router.get("/", (req, res) => {
 // Passed test call
 router.get("/one/id/:userId", (req, res) => {
   db.User.findOne({ _id: req.params.userId })
+    .populate("createdMaps")
+    .populate("guestMaps")
+    .populate("invitations")
+    .exec()
     .then((user) => {
       res.json(user);
     })
@@ -32,6 +36,10 @@ router.get("/one/id/:userId", (req, res) => {
 // Passed test call
 router.get("/one/username/:username", (req, res) => {
   db.User.findOne({ username: req.params.username })
+    .populate("createdMaps")
+    .populate("guestMaps")
+    .populate("invitations")
+    .exec()
     .then((user) => {
       res.json(user);
     })
