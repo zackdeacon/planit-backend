@@ -99,7 +99,7 @@ const chatSeed = [
 const potentialUserSeed = [
   {
     email: "derek.watson92@gmail.com",
-    invitedMaps: [],
+    invitedMapIds: [],
   }
 ]
 
@@ -182,7 +182,7 @@ async function addChats(users, maps) {
 }
 
 async function addPotentialUsers(maps) {
-  potentialUserSeed[0].invitedMaps.push(maps.ids[0]);
+  potentialUserSeed[0].invitedMapIds.push(maps.ids[0]);
   const potentialUserDocs = await models.PotentialUser.create(potentialUserSeed[0]);
   console.log("Potential User docs: ", potentialUserDocs);
 

@@ -36,6 +36,7 @@ mongoose
         models.Map.deleteMany({}),
         models.Chat.deleteMany({}),
         models.Suggestion.deleteMany({}),
+        models.PotentialUser.deleteMany({}),
       ]);
       seed();
     }
