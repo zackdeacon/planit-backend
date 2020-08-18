@@ -52,4 +52,53 @@ router.delete("/delete", (req, res) => {
   });
 });
 
+//route for vote 
+
+router.post("/vote", (req,res)=>{
+db.Vote.create({
+  userId: req.body.user.id,
+  vote: req.body.vote
+}).then((data)=>{
+  db.Suggestion.votes.push(data)
+    // id of created vote 
+    console.log(data)
+
+})
+  
+})
+//   db.Suggestion.votes.save({
+//     _id: req.body.id,
+//   }).then(data=>{
+//     res.json(data);
+//   })
+//   .catch(err=>{
+//     console.log(err)
+//     res.status(500).end();
+//   })
+// })
+
+  // if (!req.session.user) {
+  //   res.status(401).send("login required")
+  // } else {
+  // db.Suggestion.findOne({
+  //   _id:req.body.id
+  // }).then(suggestion=>{
+  //   db.Suggestion.votes.save({
+  //     vote: req.body.message
+  //   })
+
+    // const votesArray = []
+    // votesArray.push(suggesion)
+    // console.log(votesArray)
+
+    // suggestion.votes.push(req.body.message)
+    // suggestion.save();
+
+    // const newVote = db.Suggestion.votes.push(req.body.message)
+    // newVote.save();
+    
+  
+  // }
+// })
+
 module.exports = router;
