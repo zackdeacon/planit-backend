@@ -37,7 +37,7 @@ router.post("/new", (req, res) => {
   } else {
     db.Suggestion.create({
       userId: req.session.user.id,
-      mapId: req.params.mapId,
+      mapId: req.body.mapId,
       title: req.body.title,
       category: req.body.category,
       description: req.body.description,
@@ -68,19 +68,19 @@ router.delete("/delete", (req, res) => {
 
 //route for vote 
 
-router.post("/vote", (req,res)=>{
+router.post("/vote", (req, res) => {
   db.Suggestion.findOne({
     _id: req.body.id
-  }).then(data=>{
+  }).then(data => {
     data.votes.push({
       userId: req.session.user.id,
       vote: req.body.vote
     })
     data.save()
   })
-    console.log(data)
+  console.log(data)
 })
-  
+
 
 module.exports = router;
 
