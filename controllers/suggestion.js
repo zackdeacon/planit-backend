@@ -21,20 +21,25 @@ router.post("/new", (req, res) => {
   if (!req.session.user) {
     res.status(401).send("login required")
   } else {
-    db.Suggestion.create({
-      userId: req.session.user.id,
-      mapId: req.body.mapId,
-      title: req.body.title,
-      category: req.body.category,
-      description: req.body.description,
-      link: req.body.link,
-      cost: req.body.cost,
-    }).then((newSuggestion) => {
-      res.json(newSuggestion);
-    }).catch((err) => {
-      console.log(err);
-      res.status(500).end();
-    });
+    db.Map.findById(
+      req.body.mapId
+    ).then(data=>{
+      res.json(data)
+    })
+    // db.Suggestion.create({
+    //   userId: req.session.user.id,
+    //  s mapId: req.body.mapId,
+    //   title: req.body.title,
+    //   category: req.body.category,
+    //   description: req.body.description,
+    //   link: req.body.link,
+    //   cost: req.body.cost,
+    // }).then((newSuggestion) => {
+    //   res.json(newSuggestion);
+    // }).catch((err) => {
+    //   console.log(err);
+    //   res.status(500).end();
+    // });
   }
 });
 
