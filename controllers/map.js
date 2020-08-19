@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../models");
-const nodemailer = require("../nodemailer");
 const inviter = require("./utils/invitations");
 
 // Get all maps in the database
