@@ -15,6 +15,20 @@ router.get("/", (req, res) => {
     });
 });
 
+// Get all suggestions for a specific map
+// Passed test call
+router.get("/map/:mapId", (req, res) => {
+  db.Suggestion.find({
+    mapId: req.params.mapId
+  }).then(allMapSuggestions => {
+    res.json(allMapSuggestions)
+    res.status(204).end()
+  }).catch(err => {
+    console.log(err)
+    res.status(500).end()
+  })
+})
+
 // Add suggestion to suggestion collecton
 // Passed test call
 router.post("/new", (req, res) => {

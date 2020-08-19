@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../models");
+const nodemailer = require("../nodemailer");
+const inviter = require("./utils/invitations");
 
 // Get all maps in the database
 // Passed test call
@@ -46,6 +48,13 @@ router.post("/new", (req, res) => {
       guests: guests,
       destinations: destinations,
     }).then(newMap => {
+      const inviterInfo = {
+        tripName: newMap.name,
+        mapId: newMap._id,
+        creatorId: newMap.creatorId,
+        guestEmails: newMap.guests,
+      };
+      inviter.inviteGuests(inviterInfo);
       res.json(newMap)
       res.status(204).end()
     }).catch(err => {

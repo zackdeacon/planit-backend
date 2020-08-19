@@ -3,4 +3,5 @@ module.exports = {
   Map: require("./Map"),
   Suggestion: require("./Suggestion"),
   Chat: require("./Chat"),
+  PotentialUser: require("./PotentialUser"),
 };
