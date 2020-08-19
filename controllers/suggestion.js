@@ -68,17 +68,17 @@ router.delete("/delete", (req, res) => {
 
 //route for vote 
 
-router.post("/vote", (req, res) => {
+router.post("/vote/:suggestionId", (req, res) => {
   db.Suggestion.findOne({
-    _id: req.body.id
+    _id: req.params.suggestionId
   }).then(data => {
+      console.log(data)
     data.votes.push({
       userId: req.session.user.id,
       vote: req.body.vote
     })
     data.save()
   })
-  console.log(data)
 })
 
 
