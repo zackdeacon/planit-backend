@@ -18,15 +18,15 @@ router.get("/", (req, res) => {
 // Get all chats for a specific map
 // Passed test call
 router.get("/map/:mapId", (req, res) => {
-  db.Chat.find({
-    mapId: req.params.mapId
-  }).then(allMapChats => {
-    res.json(allMapChats)
-    res.status(204).end()
-  }).catch(err => {
-    console.log(err)
-    res.status(500).end()
-  })
+  db.Chat.find({ map: req.params.mapId })
+    .populate("user", "username name")
+    .then(allMapChats => {
+      res.json(allMapChats)
+      res.status(204).end()
+    }).catch(err => {
+      console.log(err)
+      res.status(500).end()
+    })
 })
 
 
@@ -36,8 +36,8 @@ router.post("/new", (req, res) => {
     res.status(401).send("login required")
   } else {
     db.Chat.create({
-      userId: req.session.user.id,
-      mapId: req.body.mapId,
+      user: req.session.user.id,
+      map: req.body.mapId,
       message: req.body.message,
     }).then(newChat => {
       res.json(newChat);
