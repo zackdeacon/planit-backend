@@ -2,7 +2,6 @@ const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const nodemailer = require("nodemailer");
 
 const models = require("./models");
 const allRoutes = require("./controllers");
@@ -10,37 +9,6 @@ const seed = require("./seeds/seed");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-
-
-//Nodemailer set up 
-
-//Creating Transporter 
-// var transporter = nodemailer.createTransport({
-//   service: 'gmail',
-//   auth: {
-//     user: 'teamplanitcartographers@gmail.com',
-//     pass: 'planitpassword1'
-//   }
-// });
-
-//Creating message outline 
-// var mailOptions = {
-//   from: 'teamplanitcartographers@gmail.com',
-//   to: 'zackdeacon347@gmail.com',
-//   subject: 'Welcome to PLANiT!',
-//   text: `Welcome to PLANiT! We're excited to assist you with all of your trip planning needs. If you have any concerns about our app please report Vinny to the appropriate authorities immediately. Good day!` 
-// }
-
-//Error catching or success status 
-// transporter.sendMail(mailOptions, function(error, info){
-//   if(error) {
-//     console.log(error);
-//   } else {
-//     console.log('Email sent: ' + info.response)
-//   }
-// })
-
-//End of Nodemailer set up
 
 // Defining middleware
 app.use(express.urlencoded({ extended: true }));
@@ -68,6 +36,7 @@ mongoose
         models.Map.deleteMany({}),
         models.Chat.deleteMany({}),
         models.Suggestion.deleteMany({}),
+        models.PotentialUser.deleteMany({}),
       ]);
       seed();
     }
@@ -77,7 +46,7 @@ mongoose
 // Uncomment for development
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3000/chat"],
+    origin: ["http://localhost:3000"],
     credentials: true,
   })
 );
