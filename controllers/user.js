@@ -46,6 +46,58 @@ router.put("/invitation/decline", (req, res) => {
     })
 })
 
+// Change user first name
+// TODO: test
+router.put("/change/name", (req, res) => {
+  db.User.findById(req.session.user.id)
+    .then(async (user) => {
+      const newName = { first: user.name.first, last: user.name.last };
+      if (req.body.name.first) {
+        newName.first = req.body.name.first;
+      }
+      if (req.body.name.last) {
+        newName.first = req.body.name.last;
+      }
+      user.name = newName;
+      const updatedUser = await user.save();
+      res.json(updatedUser);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).end();
+    })
+})
+
+// Change user email
+// TODO: UPDATE MAPS WHERE EMAIL IS IN MAP GUEST ARRAY
+// TODO: possibly rework MAP model to have guestEmails @ guests array
+// use invitees & guests for names?
+// TODO: test route
+router.put("/change/email", (req, res) => {
+  db.User.findById(req.session.user.id)
+    .then(async (user) => {
+      user.email = req.body.email;
+      const updatedUser = await user.save();
+      res.json(updatedUser);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).end();
+    })
+})
+
+// // TODO: Change user password
+// router.put("/change/password", (req, res) => {
+//   db.User.findById(req.session.user.id)
+//     .then(async (user) => {
+//       res.json(user);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(500).end();
+//     })
+// })
+
 // Get one user by id
 // Passed test call
 router.get("/one/id/:userId", (req, res) => {
