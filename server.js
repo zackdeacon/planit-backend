@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === "production") {
 
 // Connect to MongoDB
 // Change boolean to true to reseed database on server start
-const reseedOnConnect = true;
+const reseedOnConnect = false;
 mongoose
   .connect(process.env.MONGODB_URI || "mongodb://localhost/plannit", {
     useNewUrlParser: true,
@@ -46,18 +46,10 @@ mongoose
 // Uncomment for development
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["https://travelplanit.herokuapp.com"],
     credentials: true,
   })
 );
-
-// Uncomment for production
-// app.use(
-//   cors({
-//     origin: ["OUR-APP-URL-HERE"],
-//     credentials: true,
-//   })
-// );
 
 //SESSION
 // for heroku deploy uncomment proxy, samesite and secure
@@ -66,11 +58,11 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true,
-    // proxy: true,
+    proxy: true,
     cookie: {
       maxAge: 2 * 60 * 60 * 1000,
-      // sameSite: "none",
-      // secure: true,
+      sameSite: "none",
+      secure: true,
     },
   })
 );
