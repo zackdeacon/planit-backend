@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === "production") {
 
 // Connect to MongoDB
 // Change boolean to true to reseed database on server start
-const reseedOnConnect = true;
+const reseedOnConnect = false;
 mongoose
   .connect(process.env.MONGODB_URI || "mongodb://localhost/plannit", {
     useNewUrlParser: true,
@@ -78,12 +78,14 @@ app.use(
 app.use("/", allRoutes);
 
 let server = app.listen(PORT, () => {
-  let io = require("socket.io")(server);
+  let io = require("socket.io").listen(server);
+  console.log("connected")
   io.on("connection", (socket) => {
     socket.emit("your id", socket.id);
-
+console.log("1st listen")
     socket.on("new message", () => {
       io.emit("update messages");
+      console.log("message sent")
     });
   });
 
