@@ -1,7 +1,7 @@
 module.exports = {
-  User: require("./User"),
+  User: require("./user"),
   Map: require("./Map"),
-  Suggestion: require("./Suggestion"),
-  Chat: require("./Chat"),
+  Suggestion: require("./suggestion"),
+  Chat: require("./chat"),
   PotentialUser: require("./PotentialUser"),
 };
