@@ -48,6 +48,14 @@ router.post("/new", (req, res) => {
       guests: guests,
       destinations: destinations,
     }).then(newMap => {
+      db.User.findById(newMap.creatorId).then(user => {
+        user.createdMaps.push(newMap._id);
+        user.save();
+      }).catch(err => {
+        console.log(err, "no user found");
+        res.status(500).end()
+      })
+      // Invite guests
       const inviterInfo = {
         tripName: newMap.name,
         mapId: newMap._id,
