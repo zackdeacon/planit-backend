@@ -46,7 +46,10 @@ mongoose
 // Uncomment for development
 app.use(
   cors({
-    origin: ["https://travelplanit.herokuapp.com"],
+    origin: [
+      "https://travelplanit.herokuapp.com",
+      "http://localhost:3000",
+    ],
     credentials: true,
   })
 );
@@ -58,11 +61,11 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
-    proxy: true,
+    // proxy: true,
     cookie: {
       maxAge: 2 * 60 * 60 * 1000,
-      sameSite: "none",
-      secure: true,
+      // sameSite: "none",
+      // secure: true,
     },
   })
 );

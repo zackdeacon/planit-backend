@@ -15,6 +15,37 @@ router.get("/", (req, res) => {
     });
 });
 
+// Accept invitation
+// Passed test call
+router.put("/invitation/accept", (req, res) => {
+  db.User.findById(req.session.user.id)
+    .then(async (user) => {
+      user.invitations.pull(req.body.mapId);
+      user.guestMaps.push(req.body.mapId);
+      const updatedUser = await user.save();
+      res.json(updatedUser);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).end();
+    })
+})
+
+// Decline invitation
+// Passed test call
+router.put("/invitation/decline", (req, res) => {
+  db.User.findById(req.session.user.id)
+    .then(async (user) => {
+      user.invitations.pull(req.body.mapId);
+      const updatedUser = await user.save();
+      res.json(updatedUser);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).end();
+    })
+})
+
 // Get one user by id
 // Passed test call
 router.get("/one/id/:userId", (req, res) => {
