@@ -17,6 +17,11 @@ router.post("/signup", (req, res) => {
     },
   })
     .then(async function (newUser) {
+      req.session.user = {
+        id: newUser._id,
+        username: newUser.username,
+        email: newUser.email
+      };
       const potentialUser = await db.PotentialUser.findOne({ email: newUser.email });
       if (potentialUser) {
         newUser.invitations.push(...potentialUser.invitedMapIds);

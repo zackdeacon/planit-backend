@@ -46,18 +46,10 @@ mongoose
 // Uncomment for development
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["https://travelplanit.herokuapp.com"],
     credentials: true,
   })
 );
-
-// Uncomment for production
-// app.use(
-//   cors({
-//     origin: ["OUR-APP-URL-HERE"],
-//     credentials: true,
-//   })
-// );
 
 //SESSION
 // for heroku deploy uncomment proxy, samesite and secure
@@ -66,11 +58,11 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true,
-    // proxy: true,
+    proxy: true,
     cookie: {
       maxAge: 2 * 60 * 60 * 1000,
-      // sameSite: "none",
-      // secure: true,
+      sameSite: "none",
+      secure: true,
     },
   })
 );
@@ -83,7 +75,7 @@ let server = app.listen(PORT, () => {
   console.log("connected")
   io.on("connection", (socket) => {
     socket.emit("your id", socket.id);
-console.log("1st listen")
+    // console.log("1st listen")
     socket.on("new message", () => {
       io.emit("update messages");
       console.log("message sent")

@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../models");
-const nodemailer = require("../nodemailer");
 const inviter = require("./utils/invitations");
 
 // Get all maps in the database
@@ -48,6 +47,14 @@ router.post("/new", (req, res) => {
       guests: guests,
       destinations: destinations,
     }).then(newMap => {
+      db.User.findById(newMap.creatorId).then(user => {
+        user.createdMaps.push(newMap._id);
+        user.save();
+      }).catch(err => {
+        console.log(err, "no user found");
+        res.status(500).end()
+      })
+      // Invite guests
       const inviterInfo = {
         tripName: newMap.name,
         mapId: newMap._id,
