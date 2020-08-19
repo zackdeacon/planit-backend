@@ -169,11 +169,11 @@ async function addSuggestion(users, maps) {
 
 async function addChats(users, maps) {
   // Add generated id details to chat objects
-  chatSeed[0].userId = users.ids[4];
-  chatSeed[0].mapId = maps.ids[0];
+  chatSeed[0].user = users.ids[4];
+  chatSeed[0].map = maps.ids[0];
 
-  chatSeed[1].userId = users.ids[4];
-  chatSeed[1].mapId = maps.ids[0];
+  chatSeed[1].user = users.ids[4];
+  chatSeed[1].map = maps.ids[0];
 
   const chatDocs = await models.Chat.insertMany(chatSeed);
   console.log("Chat docs: ", chatDocs);
