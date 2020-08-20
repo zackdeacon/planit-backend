@@ -78,9 +78,9 @@ let server = app.listen(PORT, () => {
   io.on("connection", (socket) => {
     socket.emit("your id", socket.id);
     // console.log("1st listen")
-    socket.on("new message", () => {
+    socket.on("new message", (e) => {
       io.emit("update messages");
-      console.log("message sent")
+      console.log("message sent", e)
     });
   });
 
