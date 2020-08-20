@@ -46,8 +46,9 @@ mongoose
 // Uncomment for development
 app.use(
   cors({
-    origin: ["http://localhost:3000", 
-    "http://localhost:3000/chat"
+    origin: [ 
+      // "https://travelplanit.herokuapp.com",
+      "http://localhost:3000", 
   ],
     credentials: true,
   })
