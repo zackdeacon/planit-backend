@@ -46,7 +46,7 @@ mongoose
 // Uncomment for development
 app.use(
   cors({
-    origin: ["https://travelplanit.herokuapp.com"],
+    origin: ["https://travelplanit.herokuapp.com", "http://localhost:3000"],
     credentials: true,
   })
 );
@@ -57,7 +57,7 @@ app.use(
   session({
     secret: "keyboard cat",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     proxy: true,
     cookie: {
       maxAge: 2 * 60 * 60 * 1000,
@@ -76,9 +76,9 @@ let server = app.listen(PORT, () => {
   io.on("connection", (socket) => {
     socket.emit("your id", socket.id);
     // console.log("1st listen")
-    socket.on("new message", () => {
+    socket.on("new message", (e) => {
       io.emit("update messages");
-      console.log("message sent")
+      console.log("message sent", e)
     });
   });
 
