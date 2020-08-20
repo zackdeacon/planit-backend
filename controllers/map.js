@@ -20,6 +20,7 @@ router.get("/", (req, res) => {
 // Passed test call
 router.get("/one/id/:mapId", (req, res) => {
   db.Map.findOne({ _id: req.params.mapId })
+  .populate("creatorId", "username name")
     .then((map) => {
       res.json(map);
     })
