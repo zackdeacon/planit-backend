@@ -20,7 +20,9 @@ router.get("/", (req, res) => {
 router.get("/map/:mapId", (req, res) => {
   db.Suggestion.find({
     mapId: req.params.mapId
-  }).then(allMapSuggestions => {
+  })
+  .populate("userId", "username name")
+  .then(allMapSuggestions => {
     res.json(allMapSuggestions)
     res.status(204).end()
   }).catch(err => {
@@ -71,13 +73,31 @@ router.post("/vote/:suggestionId", (req, res) => {
   console.log(req.body)
   db.Suggestion.findOne({
     _id: req.params.suggestionId
-  }).then(data => {
-      console.log("this is the data",data)
-    data.votes.push({
-      userId: req.session.user.id,
-      vote: req.body.vote
-    })
-    data.save()
+    
+  })
+  .then(data => {
+      // console.log("this is the data",data)
+    let voteThing = false
+    for(i=0; i<data.votes.length; i++){
+      if(data.votes[i].userId.equals(req.session.user.id)){
+        voteThing = true
+        
+      } 
+      console.log("votes",data.votes[i].userId)
+    }
+    console.log("this is the user", req.session.user)
+    if(voteThing===false){
+      data.votes.push({
+        userId: req.session.user.id,
+        vote: req.body.vote
+      })
+      data.save()
+      return res.send(true)
+
+    }
+    return res.status(403).end()
+   
+    
   })
 })
 
