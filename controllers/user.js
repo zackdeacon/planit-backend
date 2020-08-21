@@ -21,14 +21,13 @@ router.get("/", (req, res) => {
 router.put("/invitation/accept", (req, res) => {
   db.User.findById(req.session.user.id)
     .then(async (user) => {
-      user.invitations.pull(req.body.mapId);
+      user.invitations.splice(req.body.index, 1);
       user.guestMaps.push(req.body.mapId);
       const updatedUser = await user.save();
       res.json(updatedUser);
     })
     .catch((err) => {
-      console.log(err);
-      res.status(500).end();
+      res.status(500).end(err);
     })
 })
 
@@ -37,13 +36,13 @@ router.put("/invitation/accept", (req, res) => {
 router.put("/invitation/decline", (req, res) => {
   db.User.findById(req.session.user.id)
     .then(async (user) => {
-      user.invitations.pull(req.body.mapId);
+      user.invitations.splice(req.body.index, 1);
       const updatedUser = await user.save();
       res.json(updatedUser);
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).end();
+      res.status(500).end(err);
     })
 })
 
