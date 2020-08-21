@@ -117,8 +117,11 @@ async function addUsers() {
 async function addMaps(users) {
   // Add created user ids to maps
   mapSeed[0].creatorId = users.ids[0];
-  mapSeed[0].guests = users.ids.filter(id => id !== users.ids[0]);
+  mapSeed[0].creator = users.docs[0].username;
+  mapSeed[0].guests = users.docs.filter(user => user._id !== users.ids[0]).map(user => user.email);
   mapSeed[1].creatorId = users.ids[1];
+  mapSeed[1].creator = users.docs[1].username;
+
 
   // Add 2 maps
   const mapDocs = await models.Map.insertMany(mapSeed)
@@ -135,6 +138,9 @@ async function addMaps(users) {
   users.docs.forEach(user => {
     if (user._id !== users.docs[0]._id) {
       user.guestMaps.push(mapIds[0]);
+    }
+    if (user._id !== users.docs[1]._id) {
+      user.invitations.push(mapIds[1]);
     }
   })
   // Save all users after pushing associated maps
