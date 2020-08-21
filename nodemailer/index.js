@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 
 const TEAM_EMAIL_ADDRESS = 'teamplanitcartographers@gmail.com';
-const PLANIT_URL = "https://www.google.com/";
+const PLANIT_URL = "https://travelplanit.herokuapp.com/#loginform";
 
 //Create Transporter 
 const transporter = nodemailer.createTransport({
@@ -53,6 +53,29 @@ const mailer = {
       `;
     }
   },
+  finalRender: {
+    subject: (map) => {
+      return `Your trip plan for ${map.name}!`;
+    },
+    text: (data) => {
+      const suggestionList = data.suggestions.map(sugg => `- ${sugg.title}\n`).join();
+      return `
+        We are going to ${data.map.destinations[0]}!\n
+        Text body goes here for email clients without HTML support.\n
+        ${suggestionList}
+      `
+    },
+    html: (data) => {
+      const suggestionLis = data.suggestions.map(sugg => `<li>${sugg.title}<li>`).join();
+      return `
+        <h1>We are going to ${data.map.destinations[0]}!</h1>
+        <p>Text body goes here for email clients without HTML support.</p>
+        <ul>
+          ${suggestionLis}
+        </ul>
+      `
+    }
+  }
 }
 
 module.exports = mailer;
