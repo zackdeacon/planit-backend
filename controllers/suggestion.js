@@ -20,7 +20,9 @@ router.get("/", (req, res) => {
 router.get("/map/:mapId", (req, res) => {
   db.Suggestion.find({
     mapId: req.params.mapId
-  }).then(allMapSuggestions => {
+  })
+  .populate("userId", "username name")
+  .then(allMapSuggestions => {
     res.json(allMapSuggestions)
     res.status(204).end()
   }).catch(err => {
