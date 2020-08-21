@@ -116,6 +116,21 @@ router.post("/comment/:suggestionId", (req, res) => {
   })
 })
 
+router.get("/comments/:suggestionId", (req, res) => {
+  // console.log("this is the thing", req.body)
+  db.Suggestion.findOne({
+    _id:req.params.suggestionId
+    
+  }).populate("userId", "username name")
+  .then(data=>{
+    console.log("this is the suggestion", data)
+    console.log("all Comments", data.comments)
+    res.json(data.comments)
+  }).catch(err=>{
+    console.log("why this is happening",err)
+  })
+})
+
 
 module.exports = router;
 
