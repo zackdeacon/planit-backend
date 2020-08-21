@@ -105,7 +105,7 @@ router.post("/comment/:suggestionId", (req, res) => {
   db.Suggestion.findOne({
     _id: req.params.suggestionId
   }).then(data => {
-      console.log("this is the data",data)
+      // console.log("this is the data",data)
     data.comments.push({
       userId: req.session.user.id,
       message: req.body.message
@@ -116,16 +116,14 @@ router.post("/comment/:suggestionId", (req, res) => {
 
 //find all comments from suggestion 
 router.get("/comments/:suggestionId", (req, res) => {
+  // console.log("this is the thing", req.body)
   db.Suggestion.findOne({
     _id:req.params.suggestionId
   }).then(data=>{
-    data.comments.find({})
-    .then(allComments=>{
-      console.log("all Comments", allComments)
-    }).catch((err) => {
-      console.log(err);
-      res.status(500).end();
-    });
+    console.log("this is the suggestion", data)
+    console.log("all Comments", data.comments)
+  }).catch(err=>{
+    console.log("why this is happening",err)
   })
 })
 
