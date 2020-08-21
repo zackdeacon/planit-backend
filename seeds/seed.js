@@ -139,6 +139,9 @@ async function addMaps(users) {
     if (user._id !== users.docs[0]._id) {
       user.guestMaps.push(mapIds[0]);
     }
+    if (user._id !== users.docs[1]._id) {
+      user.invitations.push(mapIds[1]);
+    }
   })
   // Save all users after pushing associated maps
   users.docs.forEach(user => user.save());
