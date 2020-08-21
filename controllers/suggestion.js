@@ -66,7 +66,7 @@ router.delete("/delete", (req, res) => {
   });
 });
 
-//route for vote 
+//route for new vote 
 router.post("/vote/:suggestionId", (req, res) => {
   console.log(req.body)
   db.Suggestion.findOne({
@@ -99,7 +99,7 @@ router.post("/vote/:suggestionId", (req, res) => {
   })
 })
 
-//route for comment 
+//route for new comment 
 router.post("/comment/:suggestionId", (req, res) => {
   console.log(req.body)
   db.Suggestion.findOne({
@@ -113,6 +113,22 @@ router.post("/comment/:suggestionId", (req, res) => {
     data.save()
   })
 })
+
+//find all comments from suggestion 
+router.get("/comments/:suggestionId", (req, res) => {
+  db.Suggestion.findOne({
+    _id:req.params.suggestionId
+  }).then(data=>{
+    data.comments.find({})
+    .then(allComments=>{
+      console.log("all Comments", allComments)
+    }).catch((err) => {
+      console.log(err);
+      res.status(500).end();
+    });
+  })
+})
+
 
 
 module.exports = router;
