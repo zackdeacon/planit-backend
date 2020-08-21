@@ -116,10 +116,6 @@ router.post("/comment/:suggestionId", (req, res) => {
   })
 })
 
-<<<<<<< HEAD
-//find all comments from suggestion 
-=======
->>>>>>> dev
 router.get("/comments/:suggestionId", (req, res) => {
   // console.log("this is the thing", req.body)
   db.Suggestion.findOne({
@@ -135,10 +131,6 @@ router.get("/comments/:suggestionId", (req, res) => {
   })
 })
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
 
 module.exports = router;
 
