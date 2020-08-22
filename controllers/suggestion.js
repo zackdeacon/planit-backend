@@ -106,13 +106,15 @@ router.post("/comment/:suggestionId", (req, res) => {
   console.log(req.body)
   db.Suggestion.findOne({
     _id: req.params.suggestionId
-  }).then(data => {
+  })
+  .then(data => {
       // console.log("this is the data",data)
     data.comments.push({
       userId: req.session.user.id,
       message: req.body.message
     })
     data.save()
+    res.json(data)
   })
 })
 
