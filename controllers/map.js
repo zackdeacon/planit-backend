@@ -100,6 +100,10 @@ router.put("/categories/remove", (req, res) => {
     const removeIndex = map.suggestionCategories.indexOf(category);
     if (removeIndex >= 0) {
       map.suggestionCategories.splice(removeIndex, 1);
+      db.Suggestion.deleteMany({
+        mapId: mapId,
+        category: category,
+      });
       await map.save();
       res.json({
         successful: true,
