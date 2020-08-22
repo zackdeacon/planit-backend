@@ -107,7 +107,7 @@ async function addUsers() {
   // Insert 5 users
   const userPromises = userSeed.map(async user => await models.User.create(user));
   const userDocs = await Promise.all(userPromises);
-  console.log("User docs: ", userDocs);
+  // console.log("User docs: ", userDocs);
   // Get user ids
   const userIds = userDocs.map(doc => doc._id);
 
@@ -125,7 +125,7 @@ async function addMaps(users) {
 
   // Add 2 maps
   const mapDocs = await models.Map.insertMany(mapSeed)
-  console.log("Map docs: ", mapDocs);
+  // console.log("Map docs: ", mapDocs);
 
   // Get map ids
   const mapIds = mapDocs.map(doc => doc._id);
@@ -168,7 +168,7 @@ async function addSuggestion(users, maps) {
   const suggestionDoc = await models.Suggestion.create(suggestionSeed[0]);
   suggestionDoc.votes.push({ userId: users.ids[3], vote: false });
   suggestionDoc.save();
-  console.log("Suggestion doc: ", suggestionDoc);
+  // console.log("Suggestion doc: ", suggestionDoc);
 
   return suggestionDoc;
 }
@@ -182,7 +182,7 @@ async function addChats(users, maps) {
   chatSeed[1].map = maps.ids[0];
 
   const chatDocs = await models.Chat.insertMany(chatSeed);
-  console.log("Chat docs: ", chatDocs);
+  // console.log("Chat docs: ", chatDocs);
 
   return chatDocs;
 }
@@ -190,7 +190,7 @@ async function addChats(users, maps) {
 async function addPotentialUsers(maps) {
   potentialUserSeed[0].invitedMapIds.push(maps.ids[0]);
   const potentialUserDocs = await models.PotentialUser.create(potentialUserSeed[0]);
-  console.log("Potential User docs: ", potentialUserDocs);
+  // console.log("Potential User docs: ", potentialUserDocs);
 
   return potentialUserDocs;
 }
