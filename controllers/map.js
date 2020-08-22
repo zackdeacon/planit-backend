@@ -86,8 +86,8 @@ router.put("/categories/add", (req, res) => {
       map.suggestionCategories.push(newCategory);
       await map.save();
       res.json({
-        successful: false,
-        message: "Category already exists.",
+        successful: true,
+        message: `${newCategory} added to suggestion categories.`,
         categories: map.suggestionCategories,
       });
     }
