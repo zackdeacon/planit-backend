@@ -128,17 +128,19 @@ router.get("/one/username/:username", (req, res) => {
 
 // Delete users by id
 // Passed test call
-router.delete("/delete", (req, res) => {
+router.delete("/delete/:userId", (req, res) => {
   db.User.deleteOne({
-    _id: req.body.id,
+    _id: req.params.userId,
   }).then(async (userDel) => {
     try {
+      // TODO: ALSO DELETE INVITATIONS FROM USER
       const deletePromises = [];
-      const mapDel = await db.Map.deleteMany({ creatorId: req.body.id });
-      const sugDel = await db.Suggestion.deleteMany({ userId: req.body.id });
-      const chatDel = await db.Chat.deleteMany({ userId: req.body.id });
+      const mapDel = await db.Map.deleteMany({ creatorId: req.params.userId });
+      const sugDel = await db.Suggestion.deleteMany({ userId: req.params.userId });
+      const chatDel = await db.Chat.deleteMany({ user: req.params.userId });
       deletePromises.push(userDel, mapDel, sugDel, chatDel);
       const deleteData = await Promise.all(deletePromises);
+      req.session.destroy();
       res.json({
         user: deleteData[0],
         maps: deleteData[1],
