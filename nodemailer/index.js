@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+require('dotenv').config();
 
 const TEAM_EMAIL_ADDRESS = 'teamplanitcartographers@gmail.com';
 const PLANIT_URL = "https://travelplanit.herokuapp.com/#loginform";
@@ -8,7 +9,7 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'teamplanitcartographers@gmail.com',
-    pass: 'planitpassword1'
+    pass: process.env.NODEMAILER 
   }
 });
 
