@@ -42,7 +42,7 @@ const mapSchema = new Schema({
   destinations: [String],
   suggestionCategories: {
     type: [String],
-    default: ["Accomodation", "Flights", "Food", "Entertainment"],
+    default: ["Accommodation", "Flights", "Food", "Entertainment"],
   },
   images: [imageSchema]
 }, { timestamps: true });
