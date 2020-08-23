@@ -130,4 +130,18 @@ router.delete("/delete", (req, res) => {
   });
 });
 
+//upload image
+router.post("/images/new/:mapId", (req,res)=>{
+  console.log(req.body)
+  db.Map.findOne({ _id: req.params.mapId })
+  .then(data=>{
+    console.log('data', data)
+    data.images.push({
+      images: req.body.images      
+    })
+    data.save()
+    res.json(data)
+  })
+})
+
 module.exports = router;

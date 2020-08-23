@@ -1,6 +1,16 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const multer = require("multer");
+const GridFsStorage = require("multer-gridfs-storage");
 
+const imageSchema = new Schema({
+  
+  images: {
+    data: Buffer,
+    type: String
+
+  }
+},{ timestamps: true })
 const mapSchema = new Schema({
   name: {
     type: String,
@@ -34,6 +44,7 @@ const mapSchema = new Schema({
     type: [String],
     default: ["Accomodation", "Flights", "Food", "Entertainment"],
   },
+  images: [imageSchema]
 }, { timestamps: true });
 
 const Map = mongoose.model("Map", mapSchema);
