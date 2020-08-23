@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 
 const TEAM_EMAIL_ADDRESS = 'teamplanitcartographers@gmail.com';
-const PLANIT_URL = "https://www.google.com/";
+const PLANIT_URL = "https://travelplanit.herokuapp.com";
 
 //Create Transporter 
 const transporter = nodemailer.createTransport({
