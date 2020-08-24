@@ -3,6 +3,12 @@ const router = express.Router();
 const db = require("../models");
 const inviter = require("./utils/invitations");
 
+//Image
+// const GridFsStorage = require("multer-gridfs-storage");
+// const multer = require("multer");
+// const crypto = require("crypto");
+
+
 // Get all maps in the database
 // Passed test call
 router.get("/", (req, res) => {
@@ -177,5 +183,43 @@ router.delete("/delete", (req, res) => {
     res.status(500).end();
   });
 });
+
+
+
+//Image create storage engine
+// var storage = new GridFsStorage({
+//   url: process.env.MONGODB_URI || "mongodb://localhost/plannit",
+//   file: (req, file) => {
+//     return new Promise((resolve, reject) => {
+//       crypto.randomBytes(16, (err, buf) => {
+//         if (err) {
+//           return reject(err);
+//         }
+//         const filename = buf.toString('hex') + path.extname(file.originalname);
+//         const fileInfo = {
+//           filename: filename,
+//           bucketName: 'Map'
+//         };
+//         resolve(fileInfo);
+//       });
+//     });
+//   }
+// });
+// const upload = multer({ storage });
+
+//upload image
+// router.post("/images/new/:mapId",(req,res)=>{
+//   console.log(req.body)
+//   db.Map.findOne({ _id: req.params.mapId })
+//   .then(data=>{
+//     console.log('data', data)
+//     upload.single()
+//     data.images.push({
+//       images: req.body.images      
+//     })
+//     data.save()
+//     res.json({file:req.data})
+//   })
+// })
 
 module.exports = router;
