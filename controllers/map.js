@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
 // Passed test call
 router.get("/one/id/:mapId", (req, res) => {
   db.Map.findOne({ _id: req.params.mapId })
-  .populate("creatorId", "username name")
+    .populate("creatorId", "username name")
     .then((map) => {
       res.json(map);
     })
@@ -72,6 +72,36 @@ router.post("/new", (req, res) => {
   }
 });
 
+router.put("/invite", (req, res) => {
+  const { mapId, guestEmail } = req.body
+  db.Map.findById(mapId).then(async (map) => {
+    if (map.guests.includes(guestEmail)) {
+      res.json({
+        message: `${guestEmail} already invited`,
+        successful: false,
+        guests: map.guests,
+      })
+    } else {
+      const inviterInfo = {
+        tripName: map.name,
+        mapId: map._id,
+        creatorId: map.creatorId,
+        newGuest: guestEmail,
+        guestEmails: [guestEmail],
+      };
+      inviter.inviteGuests(inviterInfo);
+      map.guests.push(guestEmail);
+      await map.save();
+      res.json({
+        message: `${guestEmail} has been invited`,
+        successful: true,
+        newGuest: guestEmail,
+        guests: map.guests,
+      })
+    }
+  })
+})
+
 // Delete map
 // Passed test call
 router.delete("/delete", (req, res) => {
@@ -79,10 +109,11 @@ router.delete("/delete", (req, res) => {
     _id: req.body.id,
   }).then(async (mapDel) => {
     try {
-      const deletePromises = [];
-      const sugDel = await db.Suggestion.deleteMany({ mapId: req.body.id });
-      const chatDel = await db.Chat.deleteMany({ mapId: req.body.id });
-      deletePromises.push(mapDel, sugDel, chatDel);
+      const deletePromises = [
+        mapDel,
+        await db.Suggestion.deleteMany({ mapId: req.body.id }),
+        await db.Chat.deleteMany({ mapId: req.body.id }),
+      ];
       const deleteData = await Promise.all(deletePromises);
       res.json({
         map: deleteData[0],
