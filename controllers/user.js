@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../models");
+const bcrypt = require("bcrypt");
 
 // Get all users in the database
 // Passed test call
@@ -20,14 +21,13 @@ router.get("/", (req, res) => {
 router.put("/invitation/accept", (req, res) => {
   db.User.findById(req.session.user.id)
     .then(async (user) => {
-      user.invitations.pull(req.body.mapId);
+      user.invitations.splice(req.body.index, 1);
       user.guestMaps.push(req.body.mapId);
       const updatedUser = await user.save();
       res.json(updatedUser);
     })
     .catch((err) => {
-      console.log(err);
-      res.status(500).end();
+      res.status(500).end(err);
     })
 })
 
@@ -36,27 +36,27 @@ router.put("/invitation/accept", (req, res) => {
 router.put("/invitation/decline", (req, res) => {
   db.User.findById(req.session.user.id)
     .then(async (user) => {
-      user.invitations.pull(req.body.mapId);
+      user.invitations.splice(req.body.index, 1);
       const updatedUser = await user.save();
       res.json(updatedUser);
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).end();
+      res.status(500).end(err);
     })
 })
 
-// Change user first name
-// TODO: test
+// Change user's name
+// Passed test call
 router.put("/change/name", (req, res) => {
   db.User.findById(req.session.user.id)
     .then(async (user) => {
       const newName = { first: user.name.first, last: user.name.last };
-      if (req.body.name.first) {
-        newName.first = req.body.name.first;
+      if (req.body.first) {
+        newName.first = req.body.first;
       }
-      if (req.body.name.last) {
-        newName.first = req.body.name.last;
+      if (req.body.last) {
+        newName.last = req.body.last;
       }
       user.name = newName;
       const updatedUser = await user.save();
@@ -68,17 +68,23 @@ router.put("/change/name", (req, res) => {
     })
 })
 
-// Change user email
-// TODO: UPDATE MAPS WHERE EMAIL IS IN MAP GUEST ARRAY
-// TODO: possibly rework MAP model to have guestEmails @ guests array
-// use invitees & guests for names?
-// TODO: test route
-router.put("/change/email", (req, res) => {
+// Change user password
+// Passed test call
+router.put("/change/password", (req, res) => {
   db.User.findById(req.session.user.id)
     .then(async (user) => {
-      user.email = req.body.email;
-      const updatedUser = await user.save();
-      res.json(updatedUser);
+      const { oldPassword, newPassword } = req.body;
+      let success, message;
+      if (bcrypt.compareSync(oldPassword, user.password)) {
+        user.password = newPassword;
+        await user.save();
+        success = true;
+        message = "Password updated successfully!";
+      } else {
+        success = false;
+        message = "Old password incorrect!";
+      }
+      res.json({ username: user.username, success, message });
     })
     .catch((err) => {
       console.log(err);
@@ -86,25 +92,13 @@ router.put("/change/email", (req, res) => {
     })
 })
 
-// // TODO: Change user password
-// router.put("/change/password", (req, res) => {
-//   db.User.findById(req.session.user.id)
-//     .then(async (user) => {
-//       res.json(user);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(500).end();
-//     })
-// })
-
 // Get one user by id
 // Passed test call
 router.get("/one/id/:userId", (req, res) => {
   db.User.findOne({ _id: req.params.userId })
     .populate("createdMaps")
     .populate("guestMaps")
-    .populate("invitations")
+    .populate("invitations", "name _id creator")
     .exec()
     .then((user) => {
       res.json(user);
@@ -121,7 +115,7 @@ router.get("/one/username/:username", (req, res) => {
   db.User.findOne({ username: req.params.username })
     .populate("createdMaps")
     .populate("guestMaps")
-    .populate("invitations")
+    .populate("invitations", "name _id creator")
     .exec()
     .then((user) => {
       res.json(user);
@@ -134,17 +128,19 @@ router.get("/one/username/:username", (req, res) => {
 
 // Delete users by id
 // Passed test call
-router.delete("/delete", (req, res) => {
+router.delete("/delete/:userId", (req, res) => {
   db.User.deleteOne({
-    _id: req.body.id,
+    _id: req.params.userId,
   }).then(async (userDel) => {
     try {
+      // TODO: ALSO DELETE INVITATIONS FROM USER
       const deletePromises = [];
-      const mapDel = await db.Map.deleteMany({ creatorId: req.body.id });
-      const sugDel = await db.Suggestion.deleteMany({ userId: req.body.id });
-      const chatDel = await db.Chat.deleteMany({ userId: req.body.id });
+      const mapDel = await db.Map.deleteMany({ creatorId: req.params.userId });
+      const sugDel = await db.Suggestion.deleteMany({ userId: req.params.userId });
+      const chatDel = await db.Chat.deleteMany({ user: req.params.userId });
       deletePromises.push(userDel, mapDel, sugDel, chatDel);
       const deleteData = await Promise.all(deletePromises);
+      req.session.destroy();
       res.json({
         user: deleteData[0],
         maps: deleteData[1],

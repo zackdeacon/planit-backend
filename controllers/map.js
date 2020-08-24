@@ -3,6 +3,12 @@ const router = express.Router();
 const db = require("../models");
 const inviter = require("./utils/invitations");
 
+//Image
+// const GridFsStorage = require("multer-gridfs-storage");
+// const multer = require("multer");
+// const crypto = require("crypto");
+
+
 // Get all maps in the database
 // Passed test call
 router.get("/", (req, res) => {
@@ -20,6 +26,7 @@ router.get("/", (req, res) => {
 // Passed test call
 router.get("/one/id/:mapId", (req, res) => {
   db.Map.findOne({ _id: req.params.mapId })
+    .populate("creatorId", "username name")
     .then((map) => {
       res.json(map);
     })
@@ -71,6 +78,84 @@ router.post("/new", (req, res) => {
   }
 });
 
+router.put("/categories/add", (req, res) => {
+  const { mapId, newCategory } = req.body;
+  db.Map.findById(mapId).then(async (map) => {
+    const catsLower = map.suggestionCategories.map(cat => cat.toLowerCase());
+    if (catsLower.includes(newCategory.toLowerCase())) {
+      res.json({
+        successful: false,
+        message: "Category already exists.",
+        categories: map.suggestionCategories,
+      });
+    } else {
+      map.suggestionCategories.push(newCategory);
+      await map.save();
+      res.json({
+        successful: true,
+        message: `${newCategory} added to suggestion categories.`,
+        categories: map.suggestionCategories,
+      });
+    }
+  })
+});
+
+router.put("/categories/remove", (req, res) => {
+  const { mapId, category } = req.body;
+  db.Map.findById(mapId).then(async (map) => {
+    const removeIndex = map.suggestionCategories.indexOf(category);
+    if (removeIndex >= 0) {
+      map.suggestionCategories.splice(removeIndex, 1);
+      db.Suggestion.deleteMany({
+        mapId: mapId,
+        category: category,
+      });
+      await map.save();
+      res.json({
+        successful: true,
+        message: "Category removed",
+        categories: map.suggestionCategories,
+      });
+    } else {
+      res.json({
+        successful: false,
+        message: "Category not found",
+        categories: map.suggestionCategories,
+      });
+    }
+  })
+});
+
+router.put("/invite", (req, res) => {
+  const { mapId, guestEmail } = req.body;
+  db.Map.findById(mapId).then(async (map) => {
+    if (map.guests.includes(guestEmail)) {
+      res.json({
+        message: `${guestEmail} already invited`,
+        successful: false,
+        guests: map.guests,
+      })
+    } else {
+      const inviterInfo = {
+        tripName: map.name,
+        mapId: map._id,
+        creatorId: map.creatorId,
+        newGuest: guestEmail,
+        guestEmails: [guestEmail],
+      };
+      inviter.inviteGuests(inviterInfo);
+      map.guests.push(guestEmail);
+      await map.save();
+      res.json({
+        message: `${guestEmail} has been invited`,
+        successful: true,
+        newGuest: guestEmail,
+        guests: map.guests,
+      })
+    }
+  })
+})
+
 // Delete map
 // Passed test call
 router.delete("/delete", (req, res) => {
@@ -78,10 +163,11 @@ router.delete("/delete", (req, res) => {
     _id: req.body.id,
   }).then(async (mapDel) => {
     try {
-      const deletePromises = [];
-      const sugDel = await db.Suggestion.deleteMany({ mapId: req.body.id });
-      const chatDel = await db.Chat.deleteMany({ mapId: req.body.id });
-      deletePromises.push(mapDel, sugDel, chatDel);
+      const deletePromises = [
+        mapDel,
+        await db.Suggestion.deleteMany({ mapId: req.body.id }),
+        await db.Chat.deleteMany({ mapId: req.body.id }),
+      ];
       const deleteData = await Promise.all(deletePromises);
       res.json({
         map: deleteData[0],
@@ -97,5 +183,43 @@ router.delete("/delete", (req, res) => {
     res.status(500).end();
   });
 });
+
+
+
+//Image create storage engine
+// var storage = new GridFsStorage({
+//   url: process.env.MONGODB_URI || "mongodb://localhost/plannit",
+//   file: (req, file) => {
+//     return new Promise((resolve, reject) => {
+//       crypto.randomBytes(16, (err, buf) => {
+//         if (err) {
+//           return reject(err);
+//         }
+//         const filename = buf.toString('hex') + path.extname(file.originalname);
+//         const fileInfo = {
+//           filename: filename,
+//           bucketName: 'Map'
+//         };
+//         resolve(fileInfo);
+//       });
+//     });
+//   }
+// });
+// const upload = multer({ storage });
+
+//upload image
+// router.post("/images/new/:mapId",(req,res)=>{
+//   console.log(req.body)
+//   db.Map.findOne({ _id: req.params.mapId })
+//   .then(data=>{
+//     console.log('data', data)
+//     upload.single()
+//     data.images.push({
+//       images: req.body.images      
+//     })
+//     data.save()
+//     res.json({file:req.data})
+//   })
+// })
 
 module.exports = router;

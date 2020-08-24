@@ -2,10 +2,15 @@ const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
 const mongoose = require("mongoose");
+require('dotenv').config();
 
 const models = require("./models");
 const allRoutes = require("./controllers");
 const seed = require("./seeds/seed");
+
+//Image
+// const Grid = require("gridfs-stream");
+// const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -13,7 +18,7 @@ const PORT = process.env.PORT || 8080;
 // Defining middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+// app.use(bodyParser.json())
 // Serving static assets
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
@@ -42,6 +47,20 @@ mongoose
     }
   });
 
+// Image create  connection
+// const conn = mongoose.createConnection (process.env.MONGODB_URI || "mongodb://localhost/plannit")
+
+//Image initiate gfs 
+// let gfs;
+
+// conn.once("open", ()=>{
+//   //init stream
+//   gfs=Grid(conn.db, mongoose.mongo)
+//   gfs.collection("Map")
+// })
+
+
+
 // CORS
 // Uncomment for development
 app.use(
@@ -55,7 +74,7 @@ app.use(
 // for heroku deploy uncomment proxy, samesite and secure
 app.use(
   session({
-    secret: "keyboard cat",
+    secret: process.env.SESSIONSECRET,
     resave: false,
     saveUninitialized: true,
     proxy: true,
