@@ -80,7 +80,7 @@ const mailer = {
       const otherArr=[];
       console.log(data.suggestions)
       for (let i = 0; i < data.suggestions.length; i++) {
-        if (data.suggestions[i].category === "Accomodation") {
+        if (data.suggestions[i].category === "Accommodation") {
           accomodationArr.push(data.suggestions[i])}
           else if (data.suggestions[i].category === "Flights") {
             flightArr.push(data.suggestions[i])}
