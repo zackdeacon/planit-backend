@@ -72,8 +72,56 @@ router.post("/new", (req, res) => {
   }
 });
 
+router.put("/categories/add", (req, res) => {
+  const { mapId, newCategory } = req.body;
+  db.Map.findById(mapId).then(async (map) => {
+    const catsLower = map.suggestionCategories.map(cat => cat.toLowerCase());
+    if (catsLower.includes(newCategory.toLowerCase())) {
+      res.json({
+        successful: false,
+        message: "Category already exists.",
+        categories: map.suggestionCategories,
+      });
+    } else {
+      map.suggestionCategories.push(newCategory);
+      await map.save();
+      res.json({
+        successful: true,
+        message: `${newCategory} added to suggestion categories.`,
+        categories: map.suggestionCategories,
+      });
+    }
+  })
+});
+
+router.put("/categories/remove", (req, res) => {
+  const { mapId, category } = req.body;
+  db.Map.findById(mapId).then(async (map) => {
+    const removeIndex = map.suggestionCategories.indexOf(category);
+    if (removeIndex >= 0) {
+      map.suggestionCategories.splice(removeIndex, 1);
+      db.Suggestion.deleteMany({
+        mapId: mapId,
+        category: category,
+      });
+      await map.save();
+      res.json({
+        successful: true,
+        message: "Category removed",
+        categories: map.suggestionCategories,
+      });
+    } else {
+      res.json({
+        successful: false,
+        message: "Category not found",
+        categories: map.suggestionCategories,
+      });
+    }
+  })
+});
+
 router.put("/invite", (req, res) => {
-  const { mapId, guestEmail } = req.body
+  const { mapId, guestEmail } = req.body;
   db.Map.findById(mapId).then(async (map) => {
     if (map.guests.includes(guestEmail)) {
       res.json({
