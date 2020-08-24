@@ -12,12 +12,12 @@ router.post("/send/map/render", async (req, res) => {
   const map = await db.Map.findById(mapId);
   const suggestions = await db.Suggestion.find({ mapId: mapId });
   nodemailer.sendEmail({
-    to: email,
+    to: nodemailer.finalRender.email(map),
     subject: nodemailer.finalRender.subject(map),
     text: nodemailer.finalRender.text({ map, suggestions }),
     html: nodemailer.finalRender.html({ map, suggestions }),
   }).then(data => {
-    console.log(data);
+    console.log("sent!");
     res.json(data)
   }).catch(err => {
     console.log(err);
