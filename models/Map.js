@@ -1,14 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const multer = require("multer");
-const GridFsStorage = require("multer-gridfs-storage");
 
 const imageSchema = new Schema({
   
   images: {
-    data: Buffer,
     type: String
-
   }
 },{ timestamps: true })
 const mapSchema = new Schema({
