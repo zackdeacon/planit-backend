@@ -2,6 +2,7 @@ const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
 const mongoose = require("mongoose");
+require('dotenv').config();
 
 const models = require("./models");
 const allRoutes = require("./controllers");
@@ -73,14 +74,14 @@ app.use(
 // for heroku deploy uncomment proxy, samesite and secure
 app.use(
   session({
-    secret: "keyboard cat",
+    secret: process.env.SESSIONSECRET,
     resave: false,
     saveUninitialized: true,
-    // proxy: true,
+    proxy: true,
     cookie: {
       maxAge: 2 * 60 * 60 * 1000,
-      // sameSite: "none",
-      // secure: true,
+      sameSite: "none",
+      secure: true,
     },
   })
 );

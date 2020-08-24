@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'teamplanitcartographers@gmail.com',
-    pass: "planitpassword1" 
+    pass: process.env.NODEMAILER
   }
 });
 
@@ -140,6 +140,10 @@ const mailer = {
       </row>
 
       <p>Make sure you say thanks to ${data.map.creator} for planning this great trip!</p>
+      
+      <p>Best, </p>
+      <p>Team PLANiT</p>
+
       </body>
     `;
     }
