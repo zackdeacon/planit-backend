@@ -221,4 +221,9 @@ db.Map.findOne({ _id: req.params.mapId })
   .catch(err=>console.log(err))
 })
 
+router.get("/images", (req,res)=>{
+  console.log(req.body)
+  db.Map.findOne({ _id: req.params.mapId })
+})
+
 module.exports = router;
