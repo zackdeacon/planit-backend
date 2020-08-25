@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const imageSchema = new Schema({
-  
-  images: {
-    type: String
-  }
-},{ timestamps: true })
+// const imageSchema = new Schema({
+//   images: {
+//     type: String
+//   }
+// },
+// // {typeKey: "$type"},
+// { timestamps: true })
 const mapSchema = new Schema({
   name: {
     type: String,
@@ -40,7 +41,8 @@ const mapSchema = new Schema({
     type: [String],
     default: ["Accommodation", "Flights", "Food", "Entertainment"],
   },
-  images: [imageSchema]
+  // images: [imageSchema]
+  images: []
 }, { timestamps: true });
 
 const Map = mongoose.model("Map", mapSchema);
