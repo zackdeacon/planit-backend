@@ -208,18 +208,22 @@ router.delete("/delete", (req, res) => {
 // const upload = multer({ storage });
 
 //upload image
-// router.post("/images/new/:mapId",(req,res)=>{
-//   console.log(req.body)
-//   db.Map.findOne({ _id: req.params.mapId })
-//   .then(data=>{
-//     console.log('data', data)
-//     upload.single()
-//     data.images.push({
-//       images: req.body.images      
-//     })
-//     data.save()
-//     res.json({file:req.data})
-//   })
-// })
+router.post("/images/new/:mapId",(req,res)=>{
+console.log('req.body.images', req.body.images)  
+db.Map.findOne({ _id: req.params.mapId })
+  .then(data=>{
+    console.log('data', data)
+    data.images.push(req.body.images)
+    console.log('data.images', data.images)
+    data.save()
+    res.json(data)
+  })
+  .catch(err=>console.log(err))
+})
+
+router.get("/images", (req,res)=>{
+  console.log(req.body)
+  db.Map.findOne({ _id: req.params.mapId })
+})
 
 module.exports = router;
