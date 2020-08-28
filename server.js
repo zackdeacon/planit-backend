@@ -60,21 +60,24 @@ mongoose
 // })
 
 // Vin's Scratch work
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "https://travelplanit.herokuapp.com");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
+app.use(function(req, res, next) {
+  res.set('credentials', 'include');
+  res.set('Access-Control-Allow-Credentials', true);
+  res.set('Access-Control-Allow-Origin', "https://travelplanit.herokuapp.com");
+  res.set('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+  next();
+});
 
 // CORS
 // Uncomment for development
-app.use(
-  cors({
-    // origin: "http://localhost:3000",
-    origin: ["https://travelplanit.herokuapp.com","https://travelplanit.herokuapp.com/user"],
-    credentials: true
-  })
-);
+// app.use(
+//   cors({
+//     // origin: "http://localhost:3000",
+//     origin: "https://travelplanit.herokuapp.com",
+//     credentials: true
+//   })
+// );
 
 //SESSION
 // for heroku deploy uncomment proxy, samesite and secure
