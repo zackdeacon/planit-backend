@@ -59,13 +59,13 @@ mongoose
 //   gfs.collection("Map")
 // })
 
-// Vin's Scratch work
+// Vin's CORs Alternative
 app.use(function(req, res, next) {
-  res.set('credentials', 'include');
-  res.set('Access-Control-Allow-Credentials', true);
-  res.set('Access-Control-Allow-Origin', "https://travelplanit.herokuapp.com");
-  res.set('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+  res.header('credentials', 'include');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Origin', "https://travelplanit.herokuapp.com");
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
   next();
 });
 
