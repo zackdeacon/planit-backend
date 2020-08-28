@@ -59,7 +59,11 @@ mongoose
 //   gfs.collection("Map")
 // })
 
-
+// Vin's Scratch work
+// app.use((req, res, next)=>{
+//   res.header('Access-Control-Allow-Headers', 'https://travelplanit.herokuapp.com');
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+// })
 
 // CORS
 // Uncomment for development
@@ -68,6 +72,7 @@ app.use(
     // origin: "http://localhost:3000",
     origin: "https://travelplanit.herokuapp.com",
     credentials: true,
+    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   })
 );
 
