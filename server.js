@@ -60,19 +60,19 @@ mongoose
 // })
 
 // Vin's Scratch work
-// app.use((req, res, next)=>{
-//   res.header('Access-Control-Allow-Headers', 'https://travelplanit.herokuapp.com');
-//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-// })
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "https://travelplanit.herokuapp.com");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
 
 // CORS
 // Uncomment for development
 app.use(
   cors({
     // origin: "http://localhost:3000",
-    origin: "https://travelplanit.herokuapp.com",
-    credentials: true,
-    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    origin: ["https://travelplanit.herokuapp.com","https://travelplanit.herokuapp.com/user"],
+    credentials: true
   })
 );
 
@@ -80,7 +80,7 @@ app.use(
 // for heroku deploy uncomment proxy, samesite and secure
 app.use(
   session({
-    secret: "keyboard cat",
+    secret: process.env.SESSIONSECRET,
     resave: false,
     saveUninitialized: true,
     proxy: true,
