@@ -80,7 +80,7 @@ app.use(
 // for heroku deploy uncomment proxy, samesite and secure
 app.use(
   session({
-    secret: process.env.SESSIONSECRET,
+    secret: "keyboard cat",
     resave: false,
     saveUninitialized: true,
     proxy: true,
