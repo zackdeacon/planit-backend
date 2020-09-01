@@ -1,5 +1,6 @@
 const express = require("express");
 const session = require("express-session");
+const MongoStore = require('connect-mongo')(session);
 const cors = require("cors");
 const mongoose = require("mongoose");
 require('dotenv').config();
@@ -97,9 +98,10 @@ app.use(
 app.use(
   session({
     secret: process.env.SESSIONSECRET,
+    store: new MongoStore({mongooseConnection: mongoose.connection}),
     resave: false,
     saveUninitialized: false,
-    // proxy: true,
+    proxy: true,
     cookie: {
       maxAge: 2 * 60 * 60 * 1000,
       sameSite: "none",
