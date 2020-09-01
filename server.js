@@ -98,13 +98,13 @@ app.use(
 app.use(
   session({
     secret: process.env.SESSIONSECRET,
-    store: new MongoStore({mongooseConnection: mongoose.connection}),
     resave: false,
     saveUninitialized: false,
     proxy: true,
+    store: new MongoStore({mongooseConnection: mongoose.connection}),
     cookie: {
       maxAge: 2 * 60 * 60 * 1000,
-      sameSite: "none",
+      sameSite: "lax",
       secure: true,
     }
   })
