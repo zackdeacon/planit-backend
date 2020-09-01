@@ -59,7 +59,7 @@ mongoose
 //   gfs.collection("Map")
 // })
 
-// Vin's CORs Alternative
+// Vin's CORs Alternatives
 // app.use(function(req, res, next) {
 //   res.header('credentials', 'include');
 //   res.header('Access-Control-Allow-Credentials', true);
@@ -69,14 +69,31 @@ mongoose
 //   next();
 // });
 
+const whitelist = ["https://travelplanit.herokuapp.com", "http://localhost:3000"]
+var corsOptionsDelegate = (req, callback) => {
+  var corsOption;
+
+  if(whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = {origin:true};
+  } else {
+    corsOptions = {origin: false};
+  }
+  callback(null, corsOptions);
+};
+
 // CORS
 app.use(
-  cors({
-    // origin: "http://localhost:3000",
-    origin: "https://travelplanit.herokuapp.com",
-    credentials: true
-  })
+  cors(corsOptionsDelegate)
 );
+
+// CORS
+// app.use(
+//   cors({
+//     // origin: "http://localhost:3000",
+//     origin: "https://travelplanit.herokuapp.com",
+//     credentials: true
+//   })
+// );
 
 //SESSION
 // for heroku deploy uncomment proxy, samesite and secure
