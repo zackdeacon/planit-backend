@@ -70,12 +70,17 @@ mongoose
 // });
 
 // CORS
+// app.use(
+//   cors({
+//     // origin: "http://localhost:3000",
+//     origin: "https://travelplanit.herokuapp.com",
+//     credentials: true
+//   })
+// );
+
+// CORS
 app.use(
-  cors({
-    // origin: "http://localhost:3000",
-    origin: "https://travelplanit.herokuapp.com",
-    credentials: true
-  })
+  cors()
 );
 
 //SESSION
