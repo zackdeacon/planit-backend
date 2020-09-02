@@ -52,13 +52,14 @@ router.post("/login", (req, res) => {
       if (!user) {
         return res.status(404).send("no such user");
       } else {
-        console.log(user)
+        console.log("User (auth.js)", user)
         if (bcrypt.compareSync(req.body.password, user.password)) {
           req.session.user = {
             id: user._id,
             username: user.username,
             email: user.email
           };
+          console.log("req.session.user (auth.js)", req.session.user);
           res.send(req.session);
         } else {
           res.status(401).send("wrong password");
@@ -80,7 +81,6 @@ router.get("/logout", (req, res) => {
 //READ SESSIONS
 router.get("/readsession", (req, res) => {
   res.json(req.session);
-
 });
 
 module.exports = router;
