@@ -61,14 +61,14 @@ mongoose
 // })
 
 // VIN'S CORs ALTERNATIVES
-// app.use(function(req, res, next) {
-//   res.header('credentials', 'include');
-//   res.header('Access-Control-Allow-Credentials', true);
-//   res.header('Access-Control-Allow-Origin', "https://travelplanit.herokuapp.com");
-//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
-//   next();
-// });
+app.use(function(req, res, next) {
+  res.set('credentials', 'include');
+  res.set('Access-Control-Allow-Credentials', true);
+  res.set('Access-Control-Allow-Origin', "https://travelplanit.herokuapp.com");
+  res.set('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+  next();
+});
 //
 // const whitelist = ["https://travelplanit.herokuapp.com", "http://localhost:3000"]
 // var corsOptionsDelegate = (req, callback) => {
@@ -86,12 +86,12 @@ mongoose
 // );
 
 // CORS
-app.use(
-  cors({
-    origin: ["https://travelplanit.herokuapp.com","http://localhost:3000"],
-    credentials: true
-  })
-);
+// app.use(
+//   cors({
+//     origin: ["https://travelplanit.herokuapp.com","http://localhost:3000", "https://planitserver.herokuapp.com/"],
+//     credentials: true
+//   })
+// );
 
 //SESSION
 // for heroku deploy uncomment proxy, samesite and secure
