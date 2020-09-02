@@ -64,9 +64,9 @@ mongoose
 app.use(function(req, res, next) {
   res.set('credentials', 'include');
   res.set('Access-Control-Allow-Credentials', true);
-  res.set('Access-Control-Allow-Origin', "https://travelplanit.herokuapp.com");
+  res.set('Access-Control-Allow-Origin', ["https://travelplanit.herokuapp.com", "http://travelplanit.herokuapp.com"]);
   res.set('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+  res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, X-Allowed-Header, Access-Control-Allow-Origin');
   next();
 });
 //
