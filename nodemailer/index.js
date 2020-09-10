@@ -140,6 +140,9 @@ const mailer = {
       </row>
 
       <p>Make sure you say thanks to ${data.map.creator} for planning this great trip!</p>
+
+      Best, 
+      Team Planit
       </body>
     `;
     }
