@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'teamplanitcartographers@gmail.com',
-    pass: "planitpassword1" 
+    pass: process.env.NODEMAILER
   }
 });
 
@@ -80,7 +80,7 @@ const mailer = {
       const otherArr=[];
       console.log(data.suggestions)
       for (let i = 0; i < data.suggestions.length; i++) {
-        if (data.suggestions[i].category === "Accomodation") {
+        if (data.suggestions[i].category === "Accommodation") {
           accomodationArr.push(data.suggestions[i])}
           else if (data.suggestions[i].category === "Flights") {
             flightArr.push(data.suggestions[i])}
@@ -140,9 +140,10 @@ const mailer = {
       </row>
 
       <p>Make sure you say thanks to ${data.map.creator} for planning this great trip!</p>
+      
+      <p>Best, </p>
+      <p>Team PLANiT</p>
 
-      Best, 
-      Team Planit
       </body>
     `;
     }
