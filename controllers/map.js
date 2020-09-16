@@ -4,12 +4,6 @@ const db = require("../models");
 const inviter = require("./utils/invitations");
 const { connection } = require("mongoose");
 
-//Image
-// const GridFsStorage = require("multer-gridfs-storage");
-// const multer = require("multer");
-// const crypto = require("crypto");
-
-
 // Get all maps in the database
 // Passed test call
 router.get("/", (req, res) => {
