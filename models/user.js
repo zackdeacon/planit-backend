@@ -45,6 +45,7 @@ const userSchema = new Schema(
         ref: "Map",
       },
     ],
+    image: []
   },
   { timestamps: true }
 );

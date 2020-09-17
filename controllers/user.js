@@ -157,4 +157,20 @@ router.delete("/delete/:userId", (req, res) => {
   });
 });
 
+// Upload Profile Picture 
+router.post("/picture/:userId", (req,res)=>{
+  console.log('req.body.image', req.body.image)
+  db.User.findOne({ _id: req.params.userId })
+    .then(data=>{
+      console.log('data', data)
+      data.image.push(req.body.image)
+      console.log('data.image', data.image)
+      data.save()
+      res.json(data)
+    })
+    .catch(err=>{
+      console.log('err', err)
+      // connection.end()
+    })
+})
 module.exports = router;
