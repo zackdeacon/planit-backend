@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === "production") {
 
 // Connect to MongoDB
 // Change boolean to true to reseed database on server start
-const reseedOnConnect = true;
+const reseedOnConnect = false;
 mongoose
   .connect(process.env.MONGODB_URI || "mongodb://localhost/plannit", {
     useNewUrlParser: true,
@@ -58,7 +58,8 @@ app.use(
 // for heroku deploy uncomment proxy, samesite and secure
 app.use(
   session({
-    secret: process.env.SESSIONSECRET,
+    // secret: process.env.SESSIONSECRET,
+    secret: "super secret",
     resave: false,
     saveUninitialized: true,
     // proxy: true,
