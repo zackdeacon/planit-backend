@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const db = require("../models");
 const bcrypt = require("bcrypt");
+const nodemailer = require("../nodemailer");
 
 // Get all users in the database
-// Passed test call
 router.get("/", (req, res) => {
   db.User.find({})
     .then((allUsers) => {
@@ -17,7 +17,6 @@ router.get("/", (req, res) => {
 });
 
 // Accept invitation
-// Passed test call
 router.put("/invitation/accept", (req, res) => {
   db.User.findById(req.session.user.id)
     .then(async (user) => {
@@ -32,7 +31,6 @@ router.put("/invitation/accept", (req, res) => {
 })
 
 // Decline invitation
-// Passed test call
 router.put("/invitation/decline", (req, res) => {
   db.User.findById(req.session.user.id)
     .then(async (user) => {
@@ -47,7 +45,6 @@ router.put("/invitation/decline", (req, res) => {
 })
 
 // Change user's name
-// Passed test call
 router.put("/change/name", (req, res) => {
   db.User.findById(req.session.user.id)
     .then(async (user) => {
@@ -68,8 +65,31 @@ router.put("/change/name", (req, res) => {
     })
 })
 
+// Reset password
+router.put("/reset/password", (req, res) => {
+  console.log(req.body)
+  db.User.findById(req.body.userId)
+    .then(async (user) => {
+      const { username, name, email } = user;
+      var tempPass = Math.random().toString(36).slice(-8);
+      user.password = tempPass;
+      await user.save();
+
+      nodemailer.sendEmail({
+        to: email,
+        subject: nodemailer.passwordReset.subject(user.username),
+        text: nodemailer.passwordReset.text({ username, name, tempPass }),
+        html: nodemailer.passwordReset.html({ username, name, tempPass }),
+      })
+      res.json({ username, email });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).end();
+    })
+})
+
 // Change user password
-// Passed test call
 router.put("/change/password", (req, res) => {
   db.User.findById(req.session.user.id)
     .then(async (user) => {
@@ -93,7 +113,6 @@ router.put("/change/password", (req, res) => {
 })
 
 // Get one user by id
-// Passed test call
 router.get("/one/id/:userId", (req, res) => {
   db.User.findOne({ _id: req.params.userId })
     .populate("createdMaps")
@@ -110,7 +129,6 @@ router.get("/one/id/:userId", (req, res) => {
 });
 
 // Get one user by username
-// Passed test call
 router.get("/one/username/:username", (req, res) => {
   db.User.findOne({ username: req.params.username })
     .populate("createdMaps")
@@ -127,13 +145,11 @@ router.get("/one/username/:username", (req, res) => {
 });
 
 // Delete users by id
-// Passed test call
 router.delete("/delete/:userId", (req, res) => {
   db.User.deleteOne({
     _id: req.params.userId,
   }).then(async (userDel) => {
     try {
-      // TODO: ALSO DELETE INVITATIONS FROM USER
       const deletePromises = [];
       const mapDel = await db.Map.deleteMany({ creatorId: req.params.userId });
       const sugDel = await db.Suggestion.deleteMany({ userId: req.params.userId });
@@ -156,5 +172,22 @@ router.delete("/delete/:userId", (req, res) => {
     res.status(500).end();
   });
 });
+
+// Upload Profile Picture 
+router.post("/picture/:userId", (req, res) => {
+  console.log('req.body.image', req.body.image)
+  db.User.findOne({ _id: req.params.userId })
+    .then(data => {
+      console.log('data', data)
+      data.image.push(req.body.image)
+      console.log('data.image', data.image)
+      data.save()
+      res.json(data)
+    })
+    .catch(err => {
+      console.log('err', err)
+      // connection.end()
+    })
+})
 
 module.exports = router;

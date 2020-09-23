@@ -9,7 +9,9 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'teamplanitcartographers@gmail.com',
-    pass: process.env.NODEMAILER
+    // ! NEED THIS FOR TESTING
+    // pass: process.env.NODEMAILER
+    pass: "planitpassword1"
   }
 });
 
@@ -73,32 +75,37 @@ const mailer = {
       `
     },
     html: (data) => {
-      const accomodationArr=[];
-      const flightArr=[];
-      const foodArr=[];
-      const entertainmentArr=[];
-      const otherArr=[];
+      const accomodationArr = [];
+      const flightArr = [];
+      const foodArr = [];
+      const entertainmentArr = [];
+      const otherArr = [];
       console.log(data.suggestions)
       for (let i = 0; i < data.suggestions.length; i++) {
         if (data.suggestions[i].category === "Accommodation") {
-          accomodationArr.push(data.suggestions[i])}
-          else if (data.suggestions[i].category === "Flights") {
-            flightArr.push(data.suggestions[i])}
-            else if (data.suggestions[i].category === "Food") {
-              foodArr.push(data.suggestions[i])}
-              else if (data.suggestions[i].category === "Entertainment") {
-                entertainmentArr.push(data.suggestions[i])}
-                else {
-                  otherArr.push(data.suggestions[i])}
-      
+          accomodationArr.push(data.suggestions[i])
+        }
+        else if (data.suggestions[i].category === "Flights") {
+          flightArr.push(data.suggestions[i])
+        }
+        else if (data.suggestions[i].category === "Food") {
+          foodArr.push(data.suggestions[i])
+        }
+        else if (data.suggestions[i].category === "Entertainment") {
+          entertainmentArr.push(data.suggestions[i])
+        }
+        else {
+          otherArr.push(data.suggestions[i])
+        }
+
       }
       console.log("here is the array!")
       console.log(accomodationArr)
-    const accomodationList = accomodationArr.map(place => `<li key=${place._id}>${place.title} --- $${place.cost} \n <a href=${place.link}>Link</a> </li>`) 
-    const flightList = flightArr.map(flight => `<li key=${flight._id}>${flight.title} --- $${flight.cost} \n <a href=${flight.link}>Link</a></li>`)
-    const foodList = foodArr.map(food => `<li key=${food._id}>${food.title} --- $${food.cost} \n <a href=${food.link}>Link</a></li>`)
-    const entertainmentList = entertainmentArr.map(fun => `<li key=${fun._id}>${fun.title} --- $${fun.cost} \n <a href=${fun.link}>Link</a></li>`)
-    const otherList = otherArr.map(other => `<li key=${other._id}>${other.title} --- $${other.cost} \n <a href=${other.link}>Link</a></li>`)
+      const accomodationList = accomodationArr.map(place => `<li key=${place._id}>${place.title} --- $${place.cost} \n <a href=${place.link}>Link</a> </li>`)
+      const flightList = flightArr.map(flight => `<li key=${flight._id}>${flight.title} --- $${flight.cost} \n <a href=${flight.link}>Link</a></li>`)
+      const foodList = foodArr.map(food => `<li key=${food._id}>${food.title} --- $${food.cost} \n <a href=${food.link}>Link</a></li>`)
+      const entertainmentList = entertainmentArr.map(fun => `<li key=${fun._id}>${fun.title} --- $${fun.cost} \n <a href=${fun.link}>Link</a></li>`)
+      const otherList = otherArr.map(other => `<li key=${other._id}>${other.title} --- $${other.cost} \n <a href=${other.link}>Link</a></li>`)
 
       return `
       <body>
@@ -146,6 +153,38 @@ const mailer = {
 
       </body>
     `;
+    }
+  },
+  passwordReset: {
+    subject: (username) => {
+      return `Instructions to reset PLANiT password for ${username}`;
+    },
+    text: ({ username, name, tempPass }) => {
+      return `
+        Hello ${name.first},\n\n
+        We have recieved a request to reset your password on PLANiT, the collaborative travel planning application.\n
+        Please use the following password to log into your account with the username ${username}:\n
+        ${tempPass}\n
+        While you can continue using this password permenantly, we suggest you immediately visit your user page, go to your settings,
+        and change it to a personalized password. That way your account's current password is not stored in plain text.\n
+        As always, thank you for using PLANiT!\n\n
+        Sincerely,\n
+        Your PLANiT Team
+      `
+    },
+    html: ({ username, name, tempPass }) => {
+      return `
+        <h3>Hell0 ${name.first}, </h3>
+        <p>We have recieved a request to reset your password on PLANiT, the collaborative travel planning application.</p>
+        <p>Please use the following password to log into your account with the username ${username}:</p>
+        <h5>${tempPass}</h5>
+        <p>While you can continue using this password permenantly, we suggest you immediately visit your user page, go to your settings,
+        and change it to a personalized password. That way your account's current password is not stored in plain text.</p>
+        <p>As always, thank you for using PLANiT!</p>
+        <p>Sincerely,</p>
+        <br>
+        <h5>Your PLANiT Team</h5>
+      `
     }
   }
 }

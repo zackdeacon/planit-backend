@@ -9,17 +9,13 @@ const models = require("./models");
 const allRoutes = require("./controllers");
 const seed = require("./seeds/seed");
 
-//Image
-// const Grid = require("gridfs-stream");
-// const bodyParser = require('body-parser');
-
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Defining middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-// app.use(bodyParser.json())
+
 // Serving static assets
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
@@ -48,56 +44,20 @@ mongoose
     }
   });
 
-// Image create  connection
-// const conn = mongoose.createConnection (process.env.MONGODB_URI || "mongodb://localhost/plannit")
-
-//Image initiate gfs 
-// let gfs;
-
-// conn.once("open", ()=>{
-//   //init stream
-//   gfs=Grid(conn.db, mongoose.mongo)
-//   gfs.collection("Map")
-// })
-
-// VIN'S CORs ALTERNATIVES
-app.use(function(req, res, next) {
-  res.set('credentials', 'include');
-  res.set('Access-Control-Allow-Credentials', true);
-  res.set('Access-Control-Allow-Origin', "https://travelplanit.herokuapp.com");
-  res.set('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, X-Allowed-Header, Access-Control-Allow-Origin');
-  next();
-});
-//
-// const whitelist = ["https://travelplanit.herokuapp.com", "http://localhost:3000"]
-// var corsOptionsDelegate = (req, callback) => {
-//   var corsOption;
-
-//   if(whitelist.indexOf(req.header('Origin')) !== -1) {
-//     corsOptions = {origin:true};
-//   } else {
-//     corsOptions = {origin: false};
-//   }
-//   callback(null, corsOptions);
-// };
-// app.use(
-//   cors(corsOptionsDelegate)
-// );
-
 // CORS
-// app.use(
-//   cors({
-//     origin: ["https://travelplanit.herokuapp.com","http://localhost:3000", "https://planitserver.herokuapp.com/"],
-//     credentials: true
-//   })
-// );
+app.use(
+  cors({
+    origin: ["https://travelplanit.herokuapp.com","http://localhost:3000", "https://planitserver.herokuapp.com/"],
+    credentials: true
+  })
+);
 
 //SESSION
 // for heroku deploy uncomment proxy, samesite and secure
 app.use(
   session({
     secret: process.env.SESSIONSECRET,
+    // secret: "super secret",
     resave: false,
     saveUninitialized: false,
     proxy: true,
