@@ -1,5 +1,6 @@
 const express = require("express");
 const session = require("express-session");
+const MongoStore = require('connect-mongo')(session);
 const cors = require("cors");
 const mongoose = require("mongoose");
 require('dotenv').config();
@@ -43,14 +44,11 @@ mongoose
     }
   });
 
-
 // CORS
-// Uncomment for development
 app.use(
   cors({
-    // origin: "http://localhost:3000",
-    origin: "https://travelplanit.herokuapp.com",
-    credentials: true,
+    origin: ["https://travelplanit.herokuapp.com","http://localhost:3000", "https://planitserver.herokuapp.com/"],
+    credentials: true
   })
 );
 
@@ -61,13 +59,14 @@ app.use(
     secret: process.env.SESSIONSECRET,
     // secret: "super secret",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     proxy: true,
+    store: new MongoStore({mongooseConnection: mongoose.connection}),
     cookie: {
       maxAge: 2 * 60 * 60 * 1000,
       sameSite: "none",
       secure: true,
-    },
+    }
   })
 );
 
