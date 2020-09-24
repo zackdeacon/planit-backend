@@ -57,7 +57,6 @@ app.use(
 app.use(
   session({
     secret: process.env.SESSIONSECRET,
-    // secret: "super secret",
     resave: false,
     saveUninitialized: false,
     proxy: true,
@@ -78,7 +77,6 @@ let server = app.listen(PORT, () => {
   console.log("connected")
   io.on("connection", (socket) => {
     socket.emit("your id", socket.id);
-    // console.log("1st listen")
     socket.on("new message", (e) => {
       io.emit("update messages");
       console.log("message sent", e)

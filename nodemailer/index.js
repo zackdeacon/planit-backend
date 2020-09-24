@@ -174,7 +174,7 @@ const mailer = {
     },
     html: ({ username, name, tempPass }) => {
       return `
-        <h3>Hell0 ${name.first}, </h3>
+        <h3>Hello ${name.first}, </h3>
         <p>We have recieved a request to reset your password on PLANiT, the collaborative travel planning application.</p>
         <p>Please use the following password to log into your account with the username ${username}:</p>
         <h5>${tempPass}</h5>
