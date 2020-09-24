@@ -44,7 +44,6 @@ router.post("/signup", (req, res) => {
 
 //LOGIN
 router.post("/login", (req, res) => {
-  // console.log("here is the password", req.body.password)
   db.User.findOne({
     username: req.body.username,
   })
